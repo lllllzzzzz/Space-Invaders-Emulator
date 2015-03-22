@@ -4,18 +4,19 @@
 #include "cpu8080.h"
 #include "resource.h"
 
-#define INVADERS_H_ROM_PATH     "C:\\Users\\Luke\\Programming\\C\\8080SIEmulator\\bin\\Debug\\invaders.h"
-#define INVADERS_G_ROM_PATH     "C:\\Users\\Luke\\Programming\\C\\8080SIEmulator\\bin\\Debug\\invaders.g"
-#define INVADERS_F_ROM_PATH     "C:\\Users\\Luke\\Programming\\C\\8080SIEmulator\\bin\\Debug\\invaders.f"
-#define INVADERS_E_ROM_PATH     "C:\\Users\\Luke\\Programming\\C\\8080SIEmulator\\bin\\Debug\\invaders.e"
+/* Hardcode rom filenames here */
+#define INVADERS_H_ROM_PATH     ""
+#define INVADERS_G_ROM_PATH     ""
+#define INVADERS_F_ROM_PATH     ""
+#define INVADERS_E_ROM_PATH     ""
 
-#define TIMER_INTERVAL          17
+#define TIMER_INTERVAL             17
 
 #define CYCLES                  33333
-#define ORG_WIDTH               224
-#define ORG_HEIGHT              256
-#define WIN_WIDTH               448
-#define WIN_HEIGHT              512
+#define ORG_WIDTH                 224
+#define ORG_HEIGHT                256
+#define WIN_WIDTH                 448
+#define WIN_HEIGHT                512
 
 #define DEBUG
 
@@ -23,13 +24,13 @@ int x = 0;
 
 HWND g_hwndDebugger;
 
-HINSTANCE			g_hInst   = 0;
-HWND				g_hWnd    = 0;
-HBITMAP				g_hBmp    = 0;
-HBITMAP				g_hBmpOld = 0;
-HDC					g_hMemDC  = 0;
-BYTE				g_Screen[ORG_WIDTH * ORG_HEIGHT];
-UINT32*				g_pPixels = 0;
+HINSTANCE		g_hInst   = 0;
+HWND			g_hWnd    = 0;
+HBITMAP			g_hBmp    = 0;
+HBITMAP			g_hBmpOld = 0;
+HDC			g_hMemDC  = 0;
+BYTE			g_Screen[ORG_WIDTH * ORG_HEIGHT];
+UINT32*			g_pPixels = 0;
 
 BOOL isPaused;
 
@@ -68,19 +69,19 @@ void drawBitmap()
 				v = 255 - x1;
 
 				if (v < 32) {
-					dbColor = 'W';  // WHITE
+				    dbColor = 'W';  // WHITE
 				} else if (v >= 32 && v < 64) {
-					dbColor = 'R';  // RED
+				    dbColor = 'R';  // RED
 				} else if (v >= 64 && v < 184) {
-					dbColor = 'W';  // WHITE
+				    dbColor = 'W';  // WHITE
 				} else if (v >= 184 && v < 240) {
-					dbColor = 'G';  // GREEN
+				    dbColor = 'G';  // GREEN
 				} else {
-					if (u >= 16 && u < 134) {
-                        dbColor = 'G';
-					} else {
-                        dbColor = 'W';
-					}
+				    if (u >= 16 && u < 134) {
+                        	        dbColor = 'G';
+				    } else {
+                        	        dbColor = 'W';
+				    }
 				}
 
 				g_Screen[(v * ORG_WIDTH) + u] = ((pixels >> i) & 0x1) ? dbColor : 0;
@@ -100,15 +101,15 @@ void drawBitmap()
 			dbColor = g_Screen[y1 * ORG_WIDTH + x1];
 
 			if (dbColor == 'W') {
-                dwColor = 0xFFFFFFFF;
+                	    dwColor = 0xFFFFFFFF;
 			} else if (dbColor == 'R') {
-                dwColor = 0xFFFF0000;
+                	    dwColor = 0xFFFF0000;
 			} else if (dbColor == 'G') {
-                dwColor = 0xFF00FF00;
+                	    dwColor = 0xFF00FF00;
 			} else if (dbColor == 'B') {
-                dwColor = 0xFF0000FF;
+                	    dwColor = 0xFF0000FF;
 			} else {
-                dwColor = 0x00000000;
+                	    dwColor = 0x00000000;
 			}
 
 			g_pPixels[y * WIN_WIDTH + x] = dwColor;
