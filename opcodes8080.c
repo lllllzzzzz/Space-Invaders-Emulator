@@ -1060,7 +1060,7 @@ void ei() // 0xFB
 {
 	INTE = 1;
 
-	if(IPEND & 0x80)
+	if (IPEND & 0x80)
 	{
 	    generateInterrupt(IPEND & 0x7F);
 	}
@@ -1372,14 +1372,14 @@ void dcxsp() // 0x3B
 */
 void daa() // 0x27
 {
-	if((REG_A & 0x0F) > 9 || FLAG_AC)
+	if ((REG_A & 0x0F) > 9 || FLAG_AC)
 	{
 		signed short result = REG_A + 6;
 		FLAG_CY = ((REG_A & 8) > (result & 8));
 		REG_A = result & 0xFF;
 	}
 
-	if((REG_A >> 4) > 9 || FLAG_AC)
+	if ((REG_A >> 4) > 9 || FLAG_AC)
 	{
 		signed short result = REG_A + (6 << 4);
 		FLAG_CY = (REG_A & 0x80) > (result & 0x80);
@@ -2053,105 +2053,81 @@ void call() // 0xCD
 }
 void cnz() // 0xC4
 {
-	if(!FLAG_Z)
-	{
+	if (!FLAG_Z) {
 		REG_SP -= 2;
 		PUSH_WORD(REG_PC + 3);
 		REG_PC = GET_WORD(REG_PC + 1);
-	}
-	else
-	{
+	} else {
 		REG_PC += 3;
 	}
 }
 void cz() // 0xCC
 {
-	if(FLAG_Z)
-	{
+	if (FLAG_Z) {
 		REG_SP -= 2;
 		PUSH_WORD(REG_PC + 3);
 		REG_PC = GET_WORD(REG_PC + 1);
-	}
-	else
-	{
+	} else {
 		REG_PC += 3;
 	}
 }
 void cnc() // 0xD4
 {
-	if(!FLAG_CY)
-	{
+	if (!FLAG_CY) {
 		REG_SP -= 2;
 		PUSH_WORD(REG_PC + 3);
 		REG_PC = GET_WORD(REG_PC + 1);
-	}
-	else
-	{
+	} else {
 		REG_PC += 3;
 	}
 }
 void cc() // 0xDC
 {
-	if(FLAG_CY)
-	{
+	if (FLAG_CY) {
 		REG_SP -= 2;
 		PUSH_WORD(REG_PC + 3);
 		REG_PC = GET_WORD(REG_PC + 1);
-	}
-	else
-	{
+	} else {
 		REG_PC += 3;
 	}
 }
 void cpo() // 0xE4
 {
-	if(!FLAG_P)
-	{
+	if (!FLAG_P) {
 		REG_SP -= 2;
 		PUSH_WORD(REG_PC + 3);
 		REG_PC = GET_WORD(REG_PC + 1);
-	}
-	else
-	{
+	} else {
 		REG_PC += 3;
 	}
 }
 void cpe() // 0xEC
 {
-	if(FLAG_P)
-	{
+	if (FLAG_P) {
 		REG_SP -= 2;
 		PUSH_WORD(REG_PC + 3);
 		REG_PC = GET_WORD(REG_PC + 1);
-	}
-	else
-	{
+	} else {
 		REG_PC += 3;
 	}
 }
 void cp() // 0xF4
 {
-	if(!FLAG_S)
-	{
-		REG_SP -= 2;
+	if (!FLAG_S) {
+	    REG_SP -= 2;
 		PUSH_WORD(REG_PC + 3);
 		REG_PC = GET_WORD(REG_PC + 1);
-	}
-	else
-	{
+	} else {
 		REG_PC += 3;
 	}
 }
 void cm() // 0xFC
 {
-	if(FLAG_S)
-	{
+	if (FLAG_S) {
 		REG_SP -= 2;
 		PUSH_WORD(REG_PC + 3);
 		REG_PC = GET_WORD(REG_PC + 1);
-	}
-	else
-	{
+	} else {
 		REG_PC += 3;
 	}
 }
@@ -2172,22 +2148,18 @@ void ret() // 0xC9
 }
 void rnz() // 0xC0
 {
-	if(!FLAG_Z)
-	{
+	if (!FLAG_Z) {
 		REG_PC = POP_WORD()
 		REG_SP += 2;
-	}
-	else
-	{
+	} else {
 		REG_PC++;
 	}
 }
 void rz() // 0xC8
 {
-	if(FLAG_Z)
-	{
+	if (FLAG_Z) {
 		#ifdef DEBUG
-        if(REG_SP == 0xFFFF)
+        if (REG_SP == 0xFFFF)
         {
         fprintf(stderr, "Stack empty, cannot return from subroutine!");
         ExitProcess(0);
@@ -2195,81 +2167,61 @@ void rz() // 0xC8
 		#endif
 		REG_PC = POP_WORD()
 		REG_SP += 2;
-	}
-	else
-	{
+	} else {
 		REG_PC++;
 	}
 }
 void rnc() // 0xD0
 {
-	if(!FLAG_CY)
-	{
+	if (!FLAG_CY) {
 		REG_PC = POP_WORD()
 		REG_SP += 2;
-	}
-	else
-	{
+	} else {
 		REG_PC++;
 	}
 }
 void rc() // 0xD8
 {
-	if(FLAG_CY)
-	{
+	if (FLAG_CY) {
 		REG_PC = POP_WORD()
 		REG_SP += 2;
-	}
-	else
-	{
+	} else {
 		REG_PC++;
 	}
 }
 void rpo() // 0xE0
 {
-	if(!FLAG_P)
-	{
+	if (!FLAG_P) {
 		REG_PC = POP_WORD()
 		REG_SP += 2;
-	}
-	else
-	{
+	} else {
 		REG_PC++;
 	}
 }
 void rpe() // 0xE8
 {
-	if(FLAG_P)
-	{
+	if (FLAG_P) {
 		REG_PC = POP_WORD()
 		REG_SP += 2;
-	}
-	else
-	{
+	} else {
 		REG_PC++;
 	}
 }
 void rp() // 0xF0
 {
-	if(!FLAG_S)
-	{
+	if (!FLAG_S) {
 		REG_PC = POP_WORD()
 		REG_SP += 2;
-	}
-	else
-	{
+	} else {
 		REG_PC++;
 	}
 }
 void rm() // 0xF8
 {
-	if(FLAG_S)
-	{
+	if (FLAG_S) {
 		REG_PC = POP_WORD()
 		REG_SP += 2;
-	}
-	else
-	{
+	} else {
 		REG_PC++;
 	}
 }
@@ -2427,13 +2379,13 @@ void in() // 0xDB
         break;
 	}
 
-	// if(port == 0)			// Unused port
+	// if (port == 0)			// Unused port
 	// 	REG_A = 0xF;
-	// else if(port == 1)		// Player input
+	// else if (port == 1)		// Player input
 	// 	REG_A = INPORT_1;
-	// else if(port == 2)		// Player input
+	// else if (port == 2)		// Player input
 	// 	REG_A = INPORT_2;
-	// else if(port == 3)		// Read bit shift byte to accumulator
+	// else if (port == 3)		// Read bit shift byte to accumulator
 	// 	REG_A = (SHIFT_REG << OUTPORT_2) >> 8;
 
 	REG_PC += 2;
@@ -2470,15 +2422,15 @@ void out() // 0xD3
         break;
 	}
 
-	// if(port == 2)			// Set bit shift offset for writing to port 4
+	// if (port == 2)			// Set bit shift offset for writing to port 4
 	// 	OUTPORT_2 = REG_A & 0x7;
-	// else if(port == 3)		// Sounds bits
+	// else if (port == 3)		// Sounds bits
 	// 	OUTPORT_3 = REG_A;
-	// else if(port == 4)		// Bit shift byte
+	// else if (port == 4)		// Bit shift byte
 	// 	SHIFT_REG = (SHIFT_REG >> 8) | (REG_A << 8);
-	// else if(port == 5)		// Sound bits
+	// else if (port == 5)		// Sound bits
 	// 	OUTPORT_5 = REG_A;
-	// // else if(port == 6)
+	// // else if (port == 6)
 	// // 	output_6 = REG_A;
 
 	REG_PC += 2;
@@ -2488,8 +2440,8 @@ void out() // 0xD3
 void illegal()
 {
 	#ifdef DEBUG
-		printf("0x%04X %02X: Illegal instruction\n", REG_PC, OPCODE);
-		debug();
+	printf("0x%04X %02X: Illegal instruction\n", REG_PC, OPCODE);
+	debug();
 	#endif
     REG_PC++;
     getchar();
