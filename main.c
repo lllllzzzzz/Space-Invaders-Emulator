@@ -59,7 +59,7 @@ void drawBitmap()
 
 	// Convert 32x224 ==> 224x256 (rotate 90 degrees)
 	for (int y = 0; y < GFX_HEIGHT; y++) {
-		x1 = 0;
+	    x1 = 0;
 		y1 = y;
 
 		for (int x = 0; x < GFX_WIDTH; x++) {
@@ -78,9 +78,9 @@ void drawBitmap()
 				    dbColor = 'G';  // GREEN
 				} else {
 				    if (u >= 16 && u < 134) {
-                        	        dbColor = 'G';
+				        dbColor = 'G';
 				    } else {
-                        	        dbColor = 'W';
+                        dbColor = 'W';
 				    }
 				}
 
@@ -101,15 +101,15 @@ void drawBitmap()
 			dbColor = g_Screen[y1 * ORG_WIDTH + x1];
 
 			if (dbColor == 'W') {
-                	    dwColor = 0xFFFFFFFF;
+                dwColor = 0xFFFFFFFF;
 			} else if (dbColor == 'R') {
-                	    dwColor = 0xFFFF0000;
+                dwColor = 0xFFFF0000;
 			} else if (dbColor == 'G') {
-                	    dwColor = 0xFF00FF00;
+                dwColor = 0xFF00FF00;
 			} else if (dbColor == 'B') {
-                	    dwColor = 0xFF0000FF;
+                dwColor = 0xFF0000FF;
 			} else {
-                	    dwColor = 0x00000000;
+                dwColor = 0x00000000;
 			}
 
 			g_pPixels[y * WIN_WIDTH + x] = dwColor;
@@ -265,8 +265,7 @@ int WINAPI WinMain (HINSTANCE hThisInstance, HINSTANCE hPrevInstance, LPSTR lpsz
 
 LRESULT CALLBACK DebuggerProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    switch(message)
-    {
+    switch (message) {
         case ID_BTN_DEBUGGERCLOSE:
             ShowWindow(g_hwndDebugger, false);
             break;
@@ -345,8 +344,7 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
             break;
 
         case WM_KEYDOWN:
-            switch (LOWORD(wParam))
-            {
+            switch (LOWORD(wParam)) {
                 case VK_F1:
                     isPaused = !isPaused;
                     updateMenu(hMenu);
@@ -363,8 +361,7 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
             break;
 
         case WM_COMMAND:
-            switch  (LOWORD(wParam))
-            {
+            switch (LOWORD(wParam)) {
 //                case ID_MENU_FILEOPEN:
 //                    if(!selectBinFilename())
 //                    {
