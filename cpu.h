@@ -61,7 +61,7 @@
 #define GET_BYTE(addr)              g_SpaceInvaders.mainMemory[addr]
 
 // FLAG_PSW status bits
-#define FLAG_PSW 			        g_SpaceInvaders.psw 		/*Processor status word  */
+#define FLAG_PSW 			        g_SpaceInvaders.psw 	/*Processor status word  */
 #define FLAG_S				        g_SpaceInvaders.s		/*Sign flag			bit 7*/
 #define FLAG_Z				        g_SpaceInvaders.z		/*Zero flag 		bit 6*/
 #define FLAG_AC				        g_SpaceInvaders.ac 		/*Auxilliary Carry 	bit 4*/
@@ -135,13 +135,13 @@ typedef struct i8080
 	unsigned char a, psw, s, z, ac, p, cy;	/* Processor Status Word - S Z 0 AC 0 P 0 CY */
 
 //	signed int result;				        /* Result of arithmetic operations */
-	signed int cycleCount; 			            /* Count cycles for instructions */
+	signed int cycleCount; 			        /* Count cycles for instructions */
 
 	BYTE opcode;
 	BYTE mainMemory[MEM_BYTES];
 
 	BYTE stopped;
-	BYTE intEnabled;						        /* Interrupt Enable flip/flop */
+	BYTE intEnabled;						/* Interrupt Enable flip/flop */
 	BYTE intPending;
 
 	WORD ports[9];
@@ -153,8 +153,8 @@ typedef struct i8080
 i8080 g_SpaceInvaders;
 
 // 8080 CPU function declarations
-void cpuInit(i8080 *myi8080);
-void cpuReset(i8080 *myi8080);
+void initializeCpu(i8080 *myi8080);
+void resetCpu(i8080 *myi8080);
 void executeCycles(i8080 *myi8080, unsigned int nCycles);
 void generateInterrupt(BYTE interruptNo);
 void debug();
