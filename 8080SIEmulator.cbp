@@ -2,12 +2,12 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="8080Emulator" />
+		<Option title="SpaceInvadersEmulator" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/8080Emulator" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Debug/SpaceInvadersEmulator" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -16,7 +16,7 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/8080Emulator" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Release/SpaceInvadersEmulator" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
@@ -37,17 +37,17 @@
 			<Add library="kernel32" />
 			<Add library="comctl32" />
 		</Linker>
-		<Unit filename="cpu8080.c">
+		<Unit filename="cpu.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="cpu8080.h" />
+		<Unit filename="cpu.h" />
+		<Unit filename="instructions.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="instructions.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="opcodes8080.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="opcodes8080.h" />
 		<Unit filename="resource.h" />
 		<Unit filename="resource.rc">
 			<Option compilerVar="WINDRES" />
@@ -57,15 +57,6 @@
 			<envvars />
 			<debugger />
 			<lib_finder disable_auto="1" />
-			<DoxyBlocks>
-				<comment_style block="0" line="0" />
-				<doxyfile_project />
-				<doxyfile_build />
-				<doxyfile_warnings />
-				<doxyfile_output />
-				<doxyfile_dot />
-				<general />
-			</DoxyBlocks>
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>
