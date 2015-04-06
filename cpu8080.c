@@ -1,9 +1,8 @@
 #include <windows.h>
 //#include <stdbool.h>
 #include <stdio.h>
-
-#include "cpu8080.h"
-#include "opcodes8080.h"
+#include "cpu.h"
+#include "instructions.h"
 
 size_t fileSize;
 
@@ -49,6 +48,7 @@ const char *i8080A_mnemonics[0x100] =
  /*F*/"RP",      "POPPSW",  "JP",      "DI",      "CP",      "PUSH PSW", "ORI",     "RST 6",   "CM",      "SPHL",    "JM",      "EI",      "CM",      "Illegal", "CPI",     "RST 7"
 };
 
+// Z80 mnemonics, not complete yet
 const char *Z80_mnemonics[0x100] =
 {/*   0          1          2          3             4          5           6          7          8          9           A          B           C          D          E          F       */
  /*0*/"NOP",     "LD BC",   "STAX B",  "INX B",      "INC B",   "DEC B",    "MVI B",   "RLCA",    "Illegal", "ADD HL,BC", "LDAX B",  "DCX B",    "INC C",   "DEC C",   "MVI C",   "RRCA",
@@ -184,10 +184,11 @@ bool loadRom(i8080 *myi8080, const char *romPath, unsigned short address)
     rewind(pFile);
 
     if(fileSize != SPACEINVADERS_ROM_SIZE) {
+        free(pFile);
         return FALSE;
     }
 
-    fread(&myi8080->mainMemory[address], sizeof(unsigned char), fileSize, pFile);
+    fread(&myi8080->mainMemory[address], sizeof (unsigned char), fileSize, pFile);
 
     fclose(pFile);
     return TRUE;
