@@ -17,7 +17,7 @@ void movad();	void movbd();	void movcd();	void movdd();	void moved();	void movhd
 void movae();	void movbe();	void movce();	void movde();	void movee();	void movhe();	void movle();	void movme();
 void movah();	void movbh();	void movch();	void movdh();	void moveh();	void movhh();	void movlh();	void movmh();
 void moval();	void movbl();	void movcl();	void movdl();	void movel();	void movhl();	void movll();	void movml();
-void movam();	void movbm();	void movcm();	void movdm();	void movem();	void movhm();	void movlm();	
+void movam();	void movbm();	void movcm();	void movdm();	void movem();	void movhm();	void movlm();
 
 // 16-bit Load/Store Immediate instructions
 void ldaxb();	void staxb();
