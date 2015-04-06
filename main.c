@@ -1,57 +1,44 @@
 #include <windows.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include "cpu8080.h"
+#include "cpu.h"
 #include "resource.h"
 
-/* Hardcode rom filenames here */
 #define INVADERS_H_ROM_PATH     ""
 #define INVADERS_G_ROM_PATH     ""
 #define INVADERS_F_ROM_PATH     ""
 #define INVADERS_E_ROM_PATH     ""
-
-#define TIMER_INTERVAL             17
-
+#define TIMER_INTERVAL          17
 #define CYCLES                  33333
-#define ORG_WIDTH                 224
-#define ORG_HEIGHT                256
-#define WIN_WIDTH                 448
-#define WIN_HEIGHT                512
-
+#define ORG_WIDTH               224
+#define ORG_HEIGHT              256
+#define WIN_WIDTH               448
+#define WIN_HEIGHT              512
 #define DEBUG
 
-int x = 0;
-
-HWND g_hwndDebugger;
-
-HINSTANCE		g_hInst   = 0;
-HWND			g_hWnd    = 0;
-HBITMAP			g_hBmp    = 0;
-HBITMAP			g_hBmpOld = 0;
+/* Globals */
+HINSTANCE   g_hInst   = 0;
+HWND		g_hWnd    = 0;
+HBITMAP		g_hBmp    = 0;
+HBITMAP		g_hBmpOld = 0;
 HDC			g_hMemDC  = 0;
-BYTE			g_Screen[ORG_WIDTH * ORG_HEIGHT];
-UINT32*			g_pPixels = 0;
-
-BOOL isPaused;
-
+UINT32*		g_pPixels = 0;
+BYTE		g_Screen[ORG_WIDTH * ORG_HEIGHT];
+BOOL        isPaused;
+HWND        hwnd;
+MMRESULT    timerEvent;
+char        szClassName[] = "WindowClass";
 
 /*  Declare Windows procedure  */
 LRESULT CALLBACK WindowProcedure (HWND, UINT, WPARAM, LPARAM);
-
-/*  Make the class name into a global variable  */
-char szClassName[] = "WindowClass";
-char binFilename[MAX_PATH];
-char filename[MAX_PATH];
-
-HWND hwnd;
-MMRESULT timerEvent;
 
 void drawBitmap()
 {
 	const int GFX_HEIGHT = 224;
 	const int GFX_WIDTH  = 32;
 
-	BYTE *gfx = &g_SpaceInvaders.mainMemory[0x2400];
+    // Pointer to the VRAM block in memory at 0x2400
+	BYTE *gfx = &g_SpaceInvaders.mainMemory[VRAM_OFFSET];
 
 	int x1, y1;
 	int u, v;
@@ -59,7 +46,7 @@ void drawBitmap()
 
 	// Convert 32x224 ==> 224x256 (rotate 90 degrees)
 	for (int y = 0; y < GFX_HEIGHT; y++) {
-	    x1 = 0;
+		x1 = 0;
 		y1 = y;
 
 		for (int x = 0; x < GFX_WIDTH; x++) {
@@ -69,19 +56,19 @@ void drawBitmap()
 				v = 255 - x1;
 
 				if (v < 32) {
-				    dbColor = 'W';  // WHITE
+					dbColor = 'W';  // WHITE
 				} else if (v >= 32 && v < 64) {
-				    dbColor = 'R';  // RED
+					dbColor = 'R';  // RED
 				} else if (v >= 64 && v < 184) {
-				    dbColor = 'W';  // WHITE
+					dbColor = 'W';  // WHITE
 				} else if (v >= 184 && v < 240) {
-				    dbColor = 'G';  // GREEN
+					dbColor = 'G';  // GREEN
 				} else {
-				    if (u >= 16 && u < 134) {
-				        dbColor = 'G';
-				    } else {
+					if (u >= 16 && u < 134) {
+                        dbColor = 'G';
+					} else {
                         dbColor = 'W';
-				    }
+					}
 				}
 
 				g_Screen[(v * ORG_WIDTH) + u] = ((pixels >> i) & 0x1) ? dbColor : 0;
@@ -121,20 +108,17 @@ void drawBitmap()
 
 void checkInput(i8080 *myi8080)
 {
-    // Player 1/2 start, insert coin
-    INPORT_1 = ((GetAsyncKeyState('3') & 0x8000)) ? INPORT_1 | 0x1 : INPORT_1 & ~0x1;
-    INPORT_1 = ((GetAsyncKeyState('2') & 0x8000)) ? INPORT_1 | 0x2 : INPORT_1 & ~0x2;
-    INPORT_1 = ((GetAsyncKeyState('1') & 0x8000)) ? INPORT_1 | 0x4 : INPORT_1 & ~0x4;
+    INPORT_1 = ((GetAsyncKeyState('3') & 0x8000)) ? INPORT_1 | 0x1 : INPORT_1 & ~0x1;   // Insert coin
+    INPORT_1 = ((GetAsyncKeyState('2') & 0x8000)) ? INPORT_1 | 0x2 : INPORT_1 & ~0x2;   // P2 start
+    INPORT_1 = ((GetAsyncKeyState('1') & 0x8000)) ? INPORT_1 | 0x4 : INPORT_1 & ~0x4;   // P1 start
 
-    // Player 1 controls
-    INPORT_1 = ((GetAsyncKeyState('W') & 0x8000)) ? INPORT_1 | 0x10 : INPORT_1 & ~0x10;
-    INPORT_1 = ((GetAsyncKeyState('Q') & 0x8000)) ? INPORT_1 | 0x20 : INPORT_1 & ~0x20;
-    INPORT_1 = ((GetAsyncKeyState('E') & 0x8000)) ? INPORT_1 | 0x40 : INPORT_1 & ~0x40;
+    INPORT_1 = ((GetAsyncKeyState('W') & 0x8000)) ? INPORT_1 | 0x10 : INPORT_1 & ~0x10; // P1 shoot
+    INPORT_1 = ((GetAsyncKeyState('Q') & 0x8000)) ? INPORT_1 | 0x20 : INPORT_1 & ~0x20; // P1 left
+    INPORT_1 = ((GetAsyncKeyState('E') & 0x8000)) ? INPORT_1 | 0x40 : INPORT_1 & ~0x40; // P1 right
 
-    // Player 2 controls
-    INPORT_2 = ((GetAsyncKeyState('T') & 0x8000)) ? INPORT_2 | 0x10 : INPORT_2 & ~0x10;
-    INPORT_2 = ((GetAsyncKeyState('R') & 0x8000)) ? INPORT_1 | 0x20 : INPORT_2 & ~0x20;
-    INPORT_2 = ((GetAsyncKeyState('Y') & 0x8000)) ? INPORT_1 | 0x40 : INPORT_2 & ~0x40;
+    INPORT_2 = ((GetAsyncKeyState('T') & 0x8000)) ? INPORT_2 | 0x10 : INPORT_2 & ~0x10; // P2 shoot
+    INPORT_2 = ((GetAsyncKeyState('R') & 0x8000)) ? INPORT_1 | 0x20 : INPORT_2 & ~0x20; // P2 left
+    INPORT_2 = ((GetAsyncKeyState('Y') & 0x8000)) ? INPORT_1 | 0x40 : INPORT_2 & ~0x40; // P2 right
 }
 
 void CALLBACK timerCallback(UINT uID, UINT uMsg, DWORD dwUser, DWORD dw1, DWORD dw2)
@@ -159,34 +143,6 @@ void CALLBACK timerCallback(UINT uID, UINT uMsg, DWORD dwUser, DWORD dw1, DWORD 
     checkInput(&g_SpaceInvaders);
 }
 
-bool selectBinFilename()
-{
-    OPENFILENAME ofn;
-
-    ZeroMemory(&ofn, sizeof (OPENFILENAME));
-    ofn.lStructSize = sizeof (OPENFILENAME);
-    ofn.hwndOwner = hwnd;
-    ofn.lpstrFilter = "All files (*.*)\0*.*\0";
-    ofn.lpstrFile = binFilename;
-    ofn.lpstrTitle = "Open Bin";
-    ofn.nMaxFile = MAX_PATH;
-    ofn.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST;
-
-    memset(filename, 0, MAX_PATH);
-    GetOpenFileName(&ofn);
-
-    if(binFilename[0] == '\0') {
-        return false;
-    }
-
-    return true;
-}
-
-void updateMenu(HMENU hMenu)
-{
-    CheckMenuItem(hMenu, IDM_PAUSE, (isPaused) ? MF_CHECKED : MF_UNCHECKED);
-}
-
 int WINAPI WinMain (HINSTANCE hThisInstance, HINSTANCE hPrevInstance, LPSTR lpszArgument, int nCmdShow)
 {
     //HWND hwnd;
@@ -209,7 +165,7 @@ int WINAPI WinMain (HINSTANCE hThisInstance, HINSTANCE hPrevInstance, LPSTR lpsz
     wincl.hbrBackground = (HBRUSH) COLOR_BACKGROUND;
 
     if (!RegisterClassEx(&wincl)) {
-        return -1;
+        return EXIT_FAILURE;
     }
 
     g_hWnd = CreateWindowEx(
@@ -247,12 +203,9 @@ int WINAPI WinMain (HINSTANCE hThisInstance, HINSTANCE hPrevInstance, LPSTR lpsz
     bmi.bmiColors[0].rgbReserved = 0;
 
     HDC hdc = GetDC(hwnd);
-
     g_hBmp = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, (void**) &g_pPixels, NULL, 0);
-
     g_hMemDC = CreateCompatibleDC(hdc);
     g_hBmpOld = (HBITMAP) SelectObject(g_hMemDC, g_hBmp);
-
     ReleaseDC(hwnd, hdc);
 
     while (GetMessage(&messages, NULL, 0, 0)) {
@@ -263,25 +216,6 @@ int WINAPI WinMain (HINSTANCE hThisInstance, HINSTANCE hPrevInstance, LPSTR lpsz
     return messages.wParam;
 }
 
-LRESULT CALLBACK DebuggerProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-    switch (message) {
-        case ID_BTN_DEBUGGERCLOSE:
-            ShowWindow(g_hwndDebugger, false);
-            break;
-
-        case WM_CLOSE:
-            PostQuitMessage(0);
-            break;
-
-        case WM_DESTROY:
-            PostQuitMessage(0);
-            break;
-    }
-
-    return 0;
-}
-
 LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     HWND hMenu = GetMenu(hwnd);
@@ -289,15 +223,16 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
     PAINTSTRUCT ps;
     HDC hdc;
 
-    switch (message)
-    {
+    switch (message) {
         case WM_CREATE:
+            // Initialize the CPU, reset registers/memory
             initializeCpu(&g_SpaceInvaders);
-//            if(loadRom(&g_SpaceInvaders))
-//            {
-//                timerEvent = timeSetEvent(1000/60, 0, (LPTIMECALLBACK)timerCallback, 0, TIME_PERIODIC);
-//            }
 
+            /* The emulator loads 4 roms to run the game.
+             * If any of these roms are missing, the program will terminate.
+             */
+
+            // Load invaders.h
             if(!loadRom(&g_SpaceInvaders, INVADERS_H_ROM_PATH, INVADERS_H_ROM_ADDRESS)) {
                 #ifdef DEBUG
                 puts("ERROR: Cannot find invaders.h! Terminating emulator...");
@@ -305,6 +240,7 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
                 return -1;
             }
 
+            // Load invaders.g
             if(!loadRom(&g_SpaceInvaders, INVADERS_G_ROM_PATH, INVADERS_G_ROM_ADDRESS)) {
                 #ifdef DEBUG
                 puts("ERROR: Cannot find invaders.g! Terminating emulator...");
@@ -312,6 +248,7 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
                 return -1;
             }
 
+            // Load invaders.f
             if(!loadRom(&g_SpaceInvaders, INVADERS_F_ROM_PATH, INVADERS_F_ROM_ADDRESS)) {
                 #ifdef DEBUG
                 puts("ERROR: Cannot find invaders.f! Terminating emulator...");
@@ -319,6 +256,7 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
                 return -1;
             }
 
+            // Load invaders.e
             if(!loadRom(&g_SpaceInvaders, INVADERS_E_ROM_PATH, INVADERS_E_ROM_ADDRESS)) {
                 #ifdef DEBUG
                 puts("ERROR: Cannot find invaders.e! Terminating emulator...");
@@ -326,10 +264,8 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
                 return -1;
             }
 
-            timerEvent = timeSetEvent(TIMER_INTERVAL, 0, (LPTIMECALLBACK)timerCallback, 0, TIME_PERIODIC);
-
-            // g_hwndDebugger = CreateDialog(GetModuleHandle(NULL), MAKEINTRESOURCE(ID_DIALOGDEBUGGER), NULL, (DLGPROC)DebuggerProc);
-            // ShowWindow(g_hwndDebugger, true);
+            // Start the timer
+            timerEvent = timeSetEvent(TIMER_INTERVAL, 0, (LPTIMECALLBACK) timerCallback, 0, TIME_PERIODIC);
         break;
 
         case WM_PAINT:
@@ -347,7 +283,7 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
             switch (LOWORD(wParam)) {
                 case VK_F1:
                     isPaused = !isPaused;
-                    updateMenu(hMenu);
+                    CheckMenuItem(hMenu, IDM_PAUSE, (isPaused) ? MF_CHECKED : MF_UNCHECKED);
                     break;
 
                 case VK_F2:
@@ -361,30 +297,10 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
             break;
 
         case WM_COMMAND:
-            switch (LOWORD(wParam)) {
-//                case ID_MENU_FILEOPEN:
-//                    if(!selectBinFilename())
-//                    {
-//                        MessageBox(hwnd, "Error selecting filename!", "Error", MB_ICONERROR);
-//                        #ifdef DEBUG
-//                            puts("Error selecting filename");
-//                        #endif // DEBUG
-//                        break;
-//                    }
-//
-//                    if(!loadRom(binFilename))
-//                    {
-//                        MessageBox(hwnd, "Error loading file!", "Error", MB_ICONERROR);
-//                        #ifdef DEBUG
-//                            puts("Error loading file");
-//                        #endif // DEBUG
-//                        break;
-//                    }
-//                    break;
-
+            switch  (LOWORD(wParam)) {
                 case IDM_PAUSE:
                     isPaused = !isPaused;
-                    updateMenu(hMenu);
+                    CheckMenuItem(hMenu, IDM_PAUSE, (isPaused) ? MF_CHECKED : MF_UNCHECKED);
                     break;
 
                 case IDM_RESET:
@@ -394,10 +310,6 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
                 case IDM_EXIT:
                     PostQuitMessage(0);
                     break;
-
-//                case IDM_EXIT:
-//                    PostQuitMessage(0);
-//                    break;
 
                 case IDM_ABOUT:
                     MessageBox(hwnd, "8080 Emulator by Luke Zimmerer", "About", MB_ICONINFORMATION);
