@@ -1060,8 +1060,7 @@ void ei() // 0xFB
 {
 	INTE = 1;
 
-	if(IPEND & 0x80)
-	{
+	if (IPEND & 0x80) {
 	    generateInterrupt(IPEND & 0x7F);
 	}
 
@@ -2401,6 +2400,9 @@ void in() // 0xDB
 //	DWORD dwValue;
 //	WORD wValue;
 
+	// I think barrel shift register emulation is buggy. Horizontal scrolling
+	// of player ship/enemy ship causes glitches on the screen.
+
 	switch(port)
 	{
 		case 0x0:               // Inputs (mapped but not used)
@@ -2441,6 +2443,9 @@ void in() // 0xDB
 void out() // 0xD3
 {
 	BYTE port = GET_BYTE(REG_PC + 1);
+
+	// I think barrel shift register emulation is buggy. Horizontal scrolling
+	// of player ship/enemy ship causes glitches on the screen.
 
 	switch(port)
 	{
@@ -2488,10 +2493,11 @@ void out() // 0xD3
 void illegal()
 {
 	#ifdef DEBUG
-		printf("0x%04X %02X: Illegal instruction\n", REG_PC, OPCODE);
-		debug();
+	printf("0x%04X %02X: Illegal instruction\n", REG_PC, OPCODE);
+	debug();
+	getchar();
 	#endif
+
     REG_PC++;
-    getchar();
 }
 
