@@ -17,16 +17,16 @@
 #define DEBUG
 
 /* Globals */
-HINSTANCE   	g_hInst   = 0;
-HWND		g_hWnd    = 0;
-HBITMAP		g_hBmp    = 0;
-HBITMAP		g_hBmpOld = 0;
-HDC		g_hMemDC  = 0;
-UINT32*		g_pPixels = 0;
-BYTE		g_Screen[ORG_WIDTH * ORG_HEIGHT];
-BOOL        	isPaused;
-HWND        	hwnd;
-MMRESULT    	timerEvent;
+HINSTANCE       g_hInst   = 0;
+HWND            g_hWnd    = 0;
+HBITMAP         g_hBmp    = 0;
+HBITMAP         g_hBmpOld = 0;
+HDC             g_hMemDC  = 0;
+UINT32*         g_pPixels = 0;
+BYTE            g_Screen[ORG_WIDTH * ORG_HEIGHT];
+BOOL            isPaused;
+HWND            hwnd;
+MMRESULT        timerEvent;
 const char      szClassName[] = "WindowClass";
 
 /* Callback prototypes */
@@ -41,76 +41,76 @@ static void checkInput(i8080*);
 // -------------------------------------------------------------------------------
 static void drawBitmap()
 {
-	const int GFX_HEIGHT = 224;
-	const int GFX_WIDTH  = 32;
+    const int GFX_HEIGHT = 224;
+    const int GFX_WIDTH  = 32;
 
     // Pointer to the VRAM block in memory at 0x2400
-	BYTE *gfx = &g_SpaceInvaders.mainMemory[VRAM_OFFSET];
+    BYTE *gfx = &g_SpaceInvaders.mainMemory[VRAM_OFFSET];
 
-	int x1, y1;
-	int u, v;
-	unsigned char dbColor;
+    int x1, y1;
+    int u, v;
+    unsigned char dbColor;
 
-	// Convert 32x224 ==> 224x256 (rotate 90 degrees)
-	for (int y = 0; y < GFX_HEIGHT; y++) {
-		x1 = 0;
-		y1 = y;
+    // Convert 32x224 ==> 224x256 (rotate 90 degrees)
+    for (int y = 0; y < GFX_HEIGHT; y++) {
+        x1 = 0;
+        y1 = y;
 
-		for (int x = 0; x < GFX_WIDTH; x++) {
-			BYTE pixels = gfx[y * GFX_WIDTH + x];
-			for (int i = 0; i < 8; i++) {
-				u = y1;
-				v = 255 - x1;
+        for (int x = 0; x < GFX_WIDTH; x++) {
+            BYTE pixels = gfx[y * GFX_WIDTH + x];
+            for (int i = 0; i < 8; i++) {
+                u = y1;
+                v = 255 - x1;
 
-				if (v < 32) {
-					dbColor = 'W';  // WHITE
-				} else if (v >= 32 && v < 64) {
-					dbColor = 'R';  // RED
-				} else if (v >= 64 && v < 184) {
-					dbColor = 'W';  // WHITE
-				} else if (v >= 184 && v < 240) {
-					dbColor = 'G';  // GREEN
-				} else {
-					if (u >= 16 && u < 134) {
+                if (v < 32) {
+                    dbColor = 'W';  // WHITE
+                } else if (v >= 32 && v < 64) {
+                    dbColor = 'R';  // RED
+                } else if (v >= 64 && v < 184) {
+                    dbColor = 'W';  // WHITE
+                } else if (v >= 184 && v < 240) {
+                    dbColor = 'G';  // GREEN
+                } else {
+                    if (u >= 16 && u < 134) {
                         dbColor = 'G';
-					} else {
+                    } else {
                         dbColor = 'W';
-					}
-				}
+                    }
+                }
 
-				g_Screen[(v * ORG_WIDTH) + u] = ((pixels >> i) & 0x1) ? dbColor : 0;
-				x1++;
-			}
-		}
-	}
+                g_Screen[(v * ORG_WIDTH) + u] = ((pixels >> i) & 0x1) ? dbColor : 0;
+                x1++;
+            }
+        }
+    }
 
-	// Convert 256x224 gfx to 448x512 bitmap
-	DWORD dwColor;
+    // Convert 256x224 gfx to 448x512 bitmap
+    DWORD dwColor;
 
-	for (int y = 0; y < WIN_HEIGHT; ++y) {
-		for (int x = 0; x < WIN_WIDTH; ++x) {
-			x1 = x * ORG_WIDTH / WIN_WIDTH;
-			y1 = y * ORG_HEIGHT / WIN_HEIGHT;
+    for (int y = 0; y < WIN_HEIGHT; ++y) {
+        for (int x = 0; x < WIN_WIDTH; ++x) {
+            x1 = x * ORG_WIDTH / WIN_WIDTH;
+            y1 = y * ORG_HEIGHT / WIN_HEIGHT;
 
-			dbColor = g_Screen[y1 * ORG_WIDTH + x1];
+            dbColor = g_Screen[y1 * ORG_WIDTH + x1];
 
-			if (dbColor == 'W') {
+            if (dbColor == 'W') {
                 dwColor = 0xFFFFFFFF;
-			} else if (dbColor == 'R') {
+            } else if (dbColor == 'R') {
                 dwColor = 0xFFFF0000;
-			} else if (dbColor == 'G') {
+            } else if (dbColor == 'G') {
                 dwColor = 0xFF00FF00;
-			} else if (dbColor == 'B') {
+            } else if (dbColor == 'B') {
                 dwColor = 0xFF0000FF;
-			} else {
+            } else {
                 dwColor = 0x00000000;
-			}
+            }
 
-			g_pPixels[y * WIN_WIDTH + x] = dwColor;
-		}
-	}
+            g_pPixels[y * WIN_WIDTH + x] = dwColor;
+        }
+    }
 
-	InvalidateRect(g_hWnd, 0, false);
+    InvalidateRect(g_hWnd, 0, false);
 }
 
 // --------------------------------------------------------------------------
@@ -205,10 +205,10 @@ int WINAPI WinMain (HINSTANCE hThisInstance, HINSTANCE hPrevInstance, LPSTR lpsz
     bmi.bmiColors[0].rgbRed         = 0;
     bmi.bmiColors[0].rgbReserved    = 0;
 
-    HDC hdc     = GetDC(hwnd);
-    g_hBmp      = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, (void**) &g_pPixels, NULL, 0);
-    g_hMemDC    = CreateCompatibleDC(hdc);
-    g_hBmpOld   = (HBITMAP) SelectObject(g_hMemDC, g_hBmp);
+    HDC hdc   = GetDC(hwnd);
+    g_hBmp    = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, (void**) &g_pPixels, NULL, 0);
+    g_hMemDC  = CreateCompatibleDC(hdc);
+    g_hBmpOld = (HBITMAP) SelectObject(g_hMemDC, g_hBmp);
 
     ReleaseDC(hwnd, hdc);
 
