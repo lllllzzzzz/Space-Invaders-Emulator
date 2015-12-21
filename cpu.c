@@ -101,17 +101,17 @@ void initializeCpu(i8080 *myi8080)
     myi8080->pc.w = 0x0000;
     myi8080->sp.w = 0xFFFF;
 
-    myi8080->a = 0;
+    myi8080->a    = 0;
     myi8080->bc.w = 0;
     myi8080->de.w = 0;
     myi8080->hl.w = 0;
 
-    myi8080->psw = 0;
-    myi8080->s = 0;
-    myi8080->z = 0;
-    myi8080->ac = 0;
-    myi8080->p = 0;
-    myi8080->cy = 0;
+    myi8080->psw  = 0;
+    myi8080->s    = 0;
+    myi8080->z    = 0;
+    myi8080->ac   = 0;
+    myi8080->p    = 0;
+    myi8080->cy   = 0;
 
     myi8080->intEnabled = 0;
     myi8080->intPending = 0;
@@ -120,8 +120,8 @@ void initializeCpu(i8080 *myi8080)
     ZeroMemory(myi8080->ports, 18);
     ZeroMemory(myi8080->mainMemory, MEM_BYTES);
 
-    myi8080->shift_byte1 = 0;
-    myi8080->shift_byte2 = 0;
+    myi8080->shift_byte1  = 0;
+    myi8080->shift_byte2  = 0;
     myi8080->shift_offset = 0;
 }
 
@@ -136,17 +136,17 @@ void resetCpu(i8080 *myi8080)
     myi8080->pc.w = 0x0000;
     myi8080->sp.w = 0xFFFF;
 
-    myi8080->a = 0;
+    myi8080->a    = 0;
     myi8080->bc.w = 0;
     myi8080->de.w = 0;
     myi8080->hl.w = 0;
 
-    myi8080->psw = 0;
-    myi8080->s = 0;
-    myi8080->z = 0;
-    myi8080->ac = 0;
-    myi8080->p = 0;
-    myi8080->cy = 0;
+    myi8080->psw  = 0;
+    myi8080->s    = 0;
+    myi8080->z    = 0;
+    myi8080->ac   = 0;
+    myi8080->p    = 0;
+    myi8080->cy   = 0;
 
     myi8080->intEnabled = 0;
     myi8080->intPending = 0;
@@ -155,8 +155,8 @@ void resetCpu(i8080 *myi8080)
     ZeroMemory(myi8080->ports, 18);
     //ZeroMemory(myi8080->mainMemory, MEM_BYTES);
 
-    myi8080->shift_byte1 = 0;
-    myi8080->shift_byte2 = 0;
+    myi8080->shift_byte1  = 0;
+    myi8080->shift_byte2  = 0;
     myi8080->shift_offset = 0;
 }
 
@@ -164,7 +164,6 @@ void resetCpu(i8080 *myi8080)
     ---------------------------------
     loadRom()
         Load the Space Invaders roms.
-
         invaders.h  0x0000 - 0x07FF
         invaders.g  0x0800 - 0x0FFF
         invaders.f  0x1000 - 0x17FF
@@ -175,7 +174,7 @@ bool loadRom(i8080 *myi8080, const char *romPath, unsigned short address)
 {
     FILE *pFile = fopen(romPath, "rb");
 
-    if(!pFile) {
+    if (!pFile) {
         return FALSE;
     }
 
@@ -183,12 +182,12 @@ bool loadRom(i8080 *myi8080, const char *romPath, unsigned short address)
     unsigned short fileSize = ftell(pFile);
     rewind(pFile);
 
-    if(fileSize != SPACEINVADERS_ROM_SIZE) {
+    if (fileSize != SPACEINVADERS_ROM_SIZE) {
         free(pFile);
         return FALSE;
     }
 
-    fread(&myi8080->mainMemory[address], sizeof (unsigned char), fileSize, pFile);
+    fread(&myi8080->mainMemory[address], sizeof(unsigned char), fileSize, pFile);
 
     fclose(pFile);
     return TRUE;
@@ -209,7 +208,7 @@ void executeCycles(i8080 *myi8080, unsigned int nCycles)
     //printf("%d, %d", nCycles, cycles);
     //getchar();
 
-    while(myi8080->cycleCount > 0) {
+    while (myi8080->cycleCount > 0) {
         // Fetch opcode
         myi8080->opcode = myi8080->mainMemory[myi8080->pc.w];
 
@@ -223,8 +222,7 @@ void executeCycles(i8080 *myi8080, unsigned int nCycles)
         #ifdef DEBUG
             // Dump registers/CPU state
 
-            if(x && INPORT_1)
-            {
+            if (x && INPORT_1) {
                 //debug(nCycles);
                 //getchar();
             }
@@ -252,7 +250,7 @@ void executeCycles(i8080 *myi8080, unsigned int nCycles)
 */
 void generateInterrupt(BYTE interruptNo)
 {
-    if(INTE) {
+    if (INTE) {
         g_SpaceInvaders.intEnabled = 0;
         g_SpaceInvaders.intPending = 0;
         g_SpaceInvaders.sp.w -= 2;
