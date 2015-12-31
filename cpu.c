@@ -98,6 +98,10 @@ const BYTE i8080A_cycles[0x100] =
 */
 void initializeCpu(i8080 *myi8080)
 {
+    if (!myi8080) {
+        return;
+    }
+    
     myi8080->pc.w = 0x0000;
     myi8080->sp.w = 0xFFFF;
 
@@ -133,6 +137,10 @@ void initializeCpu(i8080 *myi8080)
 */
 void resetCpu(i8080 *myi8080)
 {
+    if (!myi8080) {
+        return;
+    }
+
     myi8080->pc.w = 0x0000;
     myi8080->sp.w = 0xFFFF;
 
@@ -172,6 +180,10 @@ void resetCpu(i8080 *myi8080)
 */
 bool loadRom(i8080 *myi8080, const char *romPath, unsigned short address)
 {
+    if (!myi8080 || !romPath) {
+        return FALSE;
+    }
+
     FILE *pFile = fopen(romPath, "rb");
 
     if (!pFile) {
@@ -183,12 +195,11 @@ bool loadRom(i8080 *myi8080, const char *romPath, unsigned short address)
     rewind(pFile);
 
     if (fileSize != SPACEINVADERS_ROM_SIZE) {
-        free(pFile);
+        fclose(pFile);
         return FALSE;
     }
 
     fread(&myi8080->mainMemory[address], sizeof(unsigned char), fileSize, pFile);
-
     fclose(pFile);
     return TRUE;
 }
@@ -202,43 +213,19 @@ bool loadRom(i8080 *myi8080, const char *romPath, unsigned short address)
 */
 void executeCycles(i8080 *myi8080, unsigned int nCycles)
 {
-    bool x = false;
+    if (!myi8080 || nCycles == 0) {
+        return;
+    }
+
     myi8080->cycleCount = nCycles;
-    //int cycles = nCycles;
-    //printf("%d, %d", nCycles, cycles);
-    //getchar();
 
     while (myi8080->cycleCount > 0) {
         // Fetch opcode
         myi8080->opcode = myi8080->mainMemory[myi8080->pc.w];
-
-//        if(myi8080->opcode == 0x07)
-//        {
-//            x = true;
-//            getchar();
-//        }
-
-
-        #ifdef DEBUG
-            // Dump registers/CPU state
-
-            if (x && INPORT_1) {
-                //debug(nCycles);
-                //getchar();
-            }
-
-        #endif
-
-        //printf("%\d, ", nCycles);
-
         // Call opcode function from FPT
         i8080A_opcodes[myi8080->opcode]();
-
         // Decrement cycle count by cycles required for this instruction
         myi8080->cycleCount -= i8080A_cycles[myi8080->opcode];
-
-//        printf("%04X: %04X\n", myi8080->pc.w, myi8080->opcode);
-//        getchar();
     }
 }
 
