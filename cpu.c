@@ -237,13 +237,16 @@ void executeCycles(i8080 *myi8080, unsigned int nCycles)
 */
 void generateInterrupt(BYTE interruptNo)
 {
+    const int ISR_BYTES        = 8;
+    const int INTERRUPT_CYCLES = 11;
+
     if (INTE) {
         g_SpaceInvaders.intEnabled = 0;
         g_SpaceInvaders.intPending = 0;
         g_SpaceInvaders.sp.w -= 2;
         PUSH_WORD(g_SpaceInvaders.pc.w);
-        g_SpaceInvaders.pc.w = interruptNo * 8;
-        g_SpaceInvaders.cycleCount -= 11;
+        g_SpaceInvaders.pc.w = interruptNo * ISR_BYTES;
+        g_SpaceInvaders.cycleCount -= INTERRUPT_CYCLES;
     } else {
         g_SpaceInvaders.intPending = 0x80 | interruptNo;
     }
