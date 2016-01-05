@@ -14,6 +14,8 @@
 #define INVADERS_F_ROM_ADDRESS      0x1000
 #define INVADERS_E_ROM_ADDRESS      0x1800
 
+#define NUM_PORTS                   9
+#define PORTS_BYTES                 18
 #define MEM_BYTES                   0xFFFF
 #define ROM_BYTES                   0x2000
 #define RAM_BYTES                   0x0400
@@ -144,7 +146,7 @@ typedef struct i8080
     BYTE intEnabled;                        /* Interrupt Enable flip/flop */
     BYTE intPending;
 
-    WORD ports[9];
+    WORD ports[NUM_PORTS];
 
     BYTE shift_byte1;
     BYTE shift_byte2;
@@ -155,7 +157,7 @@ i8080 g_SpaceInvaders;
 // 8080 CPU function declarations
 void initializeCpu(i8080 *myi8080);
 void resetCpu(i8080 *myi8080);
-void executeCycles(i8080 *myi8080, unsigned int nCycles);
+void executeCycles(i8080 *myi8080, unsigned nCycles);
 void generateInterrupt(BYTE interruptNo);
 void debug();
 bool loadRom(i8080 *myi8080, const char *romPath, unsigned short address);
