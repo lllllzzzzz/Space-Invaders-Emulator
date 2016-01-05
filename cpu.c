@@ -121,7 +121,7 @@ void initializeCpu(i8080 *myi8080)
     myi8080->intPending = 0;
     myi8080->cycleCount = 0;
 
-    ZeroMemory(myi8080->ports, 18);
+    ZeroMemory(myi8080->ports, PORTS_BYTES);
     ZeroMemory(myi8080->mainMemory, MEM_BYTES);
 
     myi8080->shift_byte1  = 0;
@@ -160,7 +160,7 @@ void resetCpu(i8080 *myi8080)
     myi8080->intPending = 0;
     myi8080->cycleCount = 0;
 
-    ZeroMemory(myi8080->ports, 18);
+    ZeroMemory(myi8080->ports, PORTS_BYTES);
     //ZeroMemory(myi8080->mainMemory, MEM_BYTES);
 
     myi8080->shift_byte1  = 0;
@@ -199,7 +199,7 @@ bool loadRom(i8080 *myi8080, const char *romPath, unsigned short address)
         return FALSE;
     }
 
-    fread(&myi8080->mainMemory[address], sizeof(unsigned char), fileSize, pFile);
+    fread(&myi8080->mainMemory[address], 1, fileSize, pFile);
     fclose(pFile);
     return TRUE;
 }
