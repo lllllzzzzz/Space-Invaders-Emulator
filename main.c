@@ -15,6 +15,7 @@
 #define WIN_WIDTH               448
 #define WIN_HEIGHT              512
 #define DEBUG
+#define WINDOW_CLASS_NAME       "Space Invaders Emulator"
 
 /* Globals */
 HINSTANCE       g_hInst   = 0;
@@ -119,9 +120,9 @@ static void drawBitmap()
 // --------------------------------------------------------------------------
 static void checkInput(i8080 *myi8080)
 {
-    INPORT_1 = ((GetAsyncKeyState('3') & 0x8000)) ? INPORT_1 | 0x1 : INPORT_1 & ~0x1;   // Insert coin
-    INPORT_1 = ((GetAsyncKeyState('2') & 0x8000)) ? INPORT_1 | 0x2 : INPORT_1 & ~0x2;   // P2 start
-    INPORT_1 = ((GetAsyncKeyState('1') & 0x8000)) ? INPORT_1 | 0x4 : INPORT_1 & ~0x4;   // P1 start
+    INPORT_1 = ((GetAsyncKeyState('3') & 0x8000)) ? INPORT_1 | 0x1  : INPORT_1 & ~0x1;  // Insert coin
+    INPORT_1 = ((GetAsyncKeyState('2') & 0x8000)) ? INPORT_1 | 0x2  : INPORT_1 & ~0x2;  // P2 start
+    INPORT_1 = ((GetAsyncKeyState('1') & 0x8000)) ? INPORT_1 | 0x4  : INPORT_1 & ~0x4;  // P1 start
     INPORT_1 = ((GetAsyncKeyState('W') & 0x8000)) ? INPORT_1 | 0x10 : INPORT_1 & ~0x10; // P1 shoot
     INPORT_1 = ((GetAsyncKeyState('Q') & 0x8000)) ? INPORT_1 | 0x20 : INPORT_1 & ~0x20; // P1 left
     INPORT_1 = ((GetAsyncKeyState('E') & 0x8000)) ? INPORT_1 | 0x40 : INPORT_1 & ~0x40; // P1 right
@@ -183,7 +184,7 @@ int WINAPI WinMain (HINSTANCE hThisInstance, HINSTANCE hPrevInstance, LPSTR lpsz
         return EXIT_FAILURE;
     }
 
-    g_hWnd = CreateWindowEx(0, szClassName, "Space Invaders Emulator",
+    g_hWnd = CreateWindowEx(0, szClassName, WINDOW_CLASS_NAME,
            WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT,
            464, 570, HWND_DESKTOP, NULL, hThisInstance, NULL);
     ShowWindow (g_hWnd, nCmdShow);
