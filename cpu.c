@@ -104,12 +104,10 @@ void initializeCpu(i8080 *myi8080)
     
     myi8080->pc.w = 0x0000;
     myi8080->sp.w = 0xFFFF;
-
     myi8080->a    = 0;
     myi8080->bc.w = 0;
     myi8080->de.w = 0;
     myi8080->hl.w = 0;
-
     myi8080->psw  = 0;
     myi8080->s    = 0;
     myi8080->z    = 0;
@@ -143,12 +141,10 @@ void resetCpu(i8080 *myi8080)
 
     myi8080->pc.w = 0x0000;
     myi8080->sp.w = 0xFFFF;
-
     myi8080->a    = 0;
     myi8080->bc.w = 0;
     myi8080->de.w = 0;
     myi8080->hl.w = 0;
-
     myi8080->psw  = 0;
     myi8080->s    = 0;
     myi8080->z    = 0;
@@ -218,14 +214,10 @@ void executeCycles(i8080 *myi8080, unsigned int nCycles)
     }
 
     myi8080->cycleCount = nCycles;
-
     while (myi8080->cycleCount > 0) {
-        // Fetch opcode
-        myi8080->opcode = myi8080->mainMemory[myi8080->pc.w];
-        // Call opcode function from FPT
-        i8080A_opcodes[myi8080->opcode]();
-        // Decrement cycle count by cycles required for this instruction
-        myi8080->cycleCount -= i8080A_cycles[myi8080->opcode];
+        myi8080->opcode = myi8080->mainMemory[myi8080->pc.w];   // Fetch opcode
+        i8080A_opcodes[myi8080->opcode]();                      // Call function
+        myi8080->cycleCount -= i8080A_cycles[myi8080->opcode];  // Dec cycles
     }
 }
 
@@ -258,10 +250,7 @@ void debug(int cycles)
     printf("SP: 0x%04X  ", REG_SP);
     printf("Opcode: %02X (%s)  ", OPCODE, i8080A_mnemonics[OPCODE]);
     printf("Address: 0x%04X  ", GET_WORD(REG_PC + 1));
-
     printf("Stack: 0x%04X\n", (MEM[REG_SP + 1] << 8) | MEM[REG_SP]);
-
     printf("Cycles remaining: %d\n", cycles);
-
     printf("REG_A: %02X BC: %04X DE: %04X HL: %04X M: %02X\n\n", REG_A, REG_BC, REG_DE, REG_HL, REG_M);
 }
