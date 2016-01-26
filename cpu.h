@@ -86,7 +86,7 @@
 #define RST_38                      0x0038
 
 /* Calculate Parity flag */
-#define CALC_P(x)                   BYTE bits = 0;                      \
+#define CALC_FLAG_PARITY(x)         BYTE bits = 0;                      \
                                     for(int i = 0; i < 8; i++)          \
                                         bits += ((0x80 >> i) & (x));    \
                                     FLAG_P = !(bits % 2)
@@ -97,20 +97,20 @@
 /* Calculate Sign flag */
 #define CALC_S(value)               FLAG_S = ((value) >> 7)
 /* Calculate Zero flag */
-#define CALC_Z(value)               FLAG_Z = value ? 0 : 1;
+#define CALC_Z(value)               FLAG_Z = !value
 
 /* Set Processor Status Word */
-#define SET_PSW()                   FLAG_PSW = FLAG_S ? FLAG_PSW | BIT_S : FLAG_PSW & ~BIT_S;      \
-                                    FLAG_PSW = FLAG_Z ? FLAG_PSW | BIT_Z : FLAG_PSW & ~BIT_Z;      \
-                                    FLAG_PSW = FLAG_AC ? FLAG_PSW | BIT_AC : FLAG_PSW & ~BIT_AC;   \
-                                    FLAG_PSW = FLAG_P ? FLAG_PSW | BIT_P : FLAG_PSW & ~BIT_P;      \
+#define SET_PSW()                   FLAG_PSW = FLAG_S  ? FLAG_PSW | BIT_S  : FLAG_PSW & ~BIT_S;      \
+                                    FLAG_PSW = FLAG_Z  ? FLAG_PSW | BIT_Z  : FLAG_PSW & ~BIT_Z;      \
+                                    FLAG_PSW = FLAG_AC ? FLAG_PSW | BIT_AC : FLAG_PSW & ~BIT_AC;     \
+                                    FLAG_PSW = FLAG_P  ? FLAG_PSW | BIT_P  : FLAG_PSW & ~BIT_P;      \
                                     FLAG_PSW = FLAG_CY ? FLAG_PSW | BIT_CY : FLAG_PSW & ~BIT_CY;
 
 /* Retrieve FLAG_PSW into flags */
-#define GET_PSW()                   FLAG_S = FLAG_PSW & BIT_S;       \
-                                    FLAG_Z = FLAG_PSW & BIT_Z;       \
-                                    FLAG_AC = FLAG_PSW & BIT_AC;     \
-                                    FLAG_P = FLAG_PSW & BIT_P;       \
+#define GET_PSW()                   FLAG_S  = FLAG_PSW & BIT_S;       \
+                                    FLAG_Z  = FLAG_PSW & BIT_Z;       \
+                                    FLAG_AC = FLAG_PSW & BIT_AC;      \
+                                    FLAG_P  = FLAG_PSW & BIT_P;       \
                                     FLAG_CY = FLAG_PSW & BIT_CY;
 
 #define PUSH_WORD(value)            g_SpaceInvaders.mainMemory[g_SpaceInvaders.sp.w] = value & 0x00FF;    \
