@@ -1,6 +1,7 @@
 #include <windows.h>
 //#include <stdbool.h>
 #include <stdio.h>
+#include <assert.h>
 #include "cpu.h"
 #include "instructions.h"
 
@@ -91,17 +92,18 @@ const BYTE i8080A_cycles[0x100] =
 };
 
 /*
-    ----------------------------------------
+    -------------------------
     initializeCpu()
         Initialize CPU state.
-    ----------------------------------------
+    -------------------------
 */
 void initializeCpu(i8080 *myi8080)
 {
-    if (!myi8080) {
+    assert(myi8080);
+    /*if (!myi8080) {
         return;
-    }
-    
+    }*/
+
     myi8080->pc.w = 0x0000;
     myi8080->sp.w = 0xFFFF;
     myi8080->a    = 0;
@@ -135,9 +137,10 @@ void initializeCpu(i8080 *myi8080)
 */
 void resetCpu(i8080 *myi8080)
 {
-    if (!myi8080) {
+    assert(myi8080);
+    /*if (!myi8080) {
         return;
-    }
+    }*/
 
     myi8080->pc.w = 0x0000;
     myi8080->sp.w = 0xFFFF;
@@ -176,9 +179,11 @@ void resetCpu(i8080 *myi8080)
 */
 bool loadRom(i8080 *myi8080, const char *romPath, unsigned short address)
 {
-    if (!myi8080 || !romPath) {
+    assert(myi8080);
+    assert(romPath);
+    /*if (!myi8080 || !romPath) {
         return FALSE;
-    }
+    }*/
 
     FILE *pFile = fopen(romPath, "rb");
 
@@ -201,17 +206,19 @@ bool loadRom(i8080 *myi8080, const char *romPath, unsigned short address)
 }
 
 /*
-    --------------------------------------------------------
+    ---------------------------------------------------------
     executeCycles()
         Execute opcodes until a number of CPU cycles equal
         to nCycles have elapsed. Called 60 times per seceond.
-    --------------------------------------------------------
+    ---------------------------------------------------------
 */
 void executeCycles(i8080 *myi8080, unsigned int nCycles)
 {
-    if (!myi8080 || nCycles == 0) {
+    assert(myi8080);
+    assert(nCycles > 0);
+    /*if (!myi8080 || nCycles == 0) {
         return;
-    }
+    }*/
 
     myi8080->cycleCount = nCycles;
     while (myi8080->cycleCount > 0) {
