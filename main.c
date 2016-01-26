@@ -4,18 +4,23 @@
 #include "cpu.h"
 #include "resource.h"
 
-#define INVADERS_H_ROM_PATH     ""
-#define INVADERS_G_ROM_PATH     ""
-#define INVADERS_F_ROM_PATH     ""
-#define INVADERS_E_ROM_PATH     ""
-#define TIMER_INTERVAL          17
-#define CYCLES                  33333
-#define ORG_WIDTH               224
-#define ORG_HEIGHT              256
-#define WIN_WIDTH               448
-#define WIN_HEIGHT              512
+#define SHOW_ERROR(msg)     MessageBox(NULL, msg, "Space Invaders Emulator", MB_ICONERROR | MB_OK);
+#define SHOW_SUCCESS(msg)   MessageBox(NULL, msg, "Space Invaders Emulator", MB_ICONASTERISK | MB_OK);
+
 #define DEBUG
-#define WINDOW_CLASS_NAME       "Space Invaders Emulator"
+
+#define INVADERS_H_ROM_PATH ""
+#define INVADERS_G_ROM_PATH ""
+#define INVADERS_F_ROM_PATH ""
+#define INVADERS_E_ROM_PATH ""
+#define TIMER_INTERVAL      17
+#define CYCLES              33333
+#define ORG_WIDTH           224
+#define ORG_HEIGHT          256
+#define WIN_WIDTH           448
+#define WIN_HEIGHT          512
+
+#define WINDOW_CLASS_NAME   "Space Invaders Emulator"
 
 /* Globals */
 HINSTANCE       g_hInst   = 0;
@@ -163,6 +168,9 @@ void CALLBACK timerCallback(UINT uID, UINT uMsg, DWORD dwUser, DWORD dw1, DWORD 
 
 int WINAPI WinMain (HINSTANCE hThisInstance, HINSTANCE hPrevInstance, LPSTR lpszArgument, int nCmdShow)
 {
+    static const int MAIN_WINDOW_WIDTH  = 464;
+    static const int MAIN_WINDOW_HEIGHT = 570;
+
     //HWND hwnd;
     MSG messages;
     WNDCLASSEX wincl;
@@ -171,10 +179,10 @@ int WINAPI WinMain (HINSTANCE hThisInstance, HINSTANCE hPrevInstance, LPSTR lpsz
     wincl.lpszClassName = szClassName;
     wincl.lpfnWndProc   = WindowProcedure;
     wincl.style         = CS_DBLCLKS;
-    wincl.cbSize        = sizeof (WNDCLASSEX);
-    wincl.hIcon         = LoadIcon (NULL, IDI_APPLICATION);
-    wincl.hIconSm       = LoadIcon (NULL, IDI_APPLICATION);
-    wincl.hCursor       = LoadCursor (NULL, IDC_ARROW);
+    wincl.cbSize        = sizeof(WNDCLASSEX);
+    wincl.hIcon         = LoadIcon(NULL, IDI_APPLICATION);
+    wincl.hIconSm       = LoadIcon(NULL, IDI_APPLICATION);
+    wincl.hCursor       = LoadCursor(NULL, IDC_ARROW);
     wincl.lpszMenuName  = MAKEINTRESOURCE(ID_MENU);
     wincl.cbClsExtra    = 0;
     wincl.cbWndExtra    = 0;
@@ -185,26 +193,26 @@ int WINAPI WinMain (HINSTANCE hThisInstance, HINSTANCE hPrevInstance, LPSTR lpsz
     }
 
     g_hWnd = CreateWindowEx(0, szClassName, WINDOW_CLASS_NAME,
-           WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT,
-           464, 570, HWND_DESKTOP, NULL, hThisInstance, NULL);
+           WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, MAIN_WINDOW_WIDTH, 
+           MAIN_WINDOW_HEIGHT, HWND_DESKTOP, NULL, hThisInstance, NULL);
     ShowWindow (g_hWnd, nCmdShow);
 
     BITMAPINFO bmi;
-    bmi.bmiHeader.biSize            = sizeof (BITMAPINFO);
-    bmi.bmiHeader.biWidth           = WIN_WIDTH;
-    bmi.bmiHeader.biHeight          = -WIN_HEIGHT;
-    bmi.bmiHeader.biPlanes          = 1;
-    bmi.bmiHeader.biBitCount        = 32;
-    bmi.bmiHeader.biCompression     = BI_RGB;
-    bmi.bmiHeader.biSizeImage       = 0;
-    bmi.bmiHeader.biXPelsPerMeter   = 0;
-    bmi.bmiHeader.biYPelsPerMeter   = 0;
-    bmi.bmiHeader.biClrUsed         = 0;
-    bmi.bmiHeader.biClrImportant    = 0;
-    bmi.bmiColors[0].rgbBlue        = 0;
-    bmi.bmiColors[0].rgbGreen       = 0;
-    bmi.bmiColors[0].rgbRed         = 0;
-    bmi.bmiColors[0].rgbReserved    = 0;
+    bmi.bmiHeader.biSize          = sizeof(BITMAPINFO);
+    bmi.bmiHeader.biWidth         = WIN_WIDTH;
+    bmi.bmiHeader.biHeight        = -WIN_HEIGHT;
+    bmi.bmiHeader.biPlanes        = 1;
+    bmi.bmiHeader.biBitCount      = 32;
+    bmi.bmiHeader.biCompression   = BI_RGB;
+    bmi.bmiHeader.biSizeImage     = 0;
+    bmi.bmiHeader.biXPelsPerMeter = 0;
+    bmi.bmiHeader.biYPelsPerMeter = 0;
+    bmi.bmiHeader.biClrUsed       = 0;
+    bmi.bmiHeader.biClrImportant  = 0;
+    bmi.bmiColors[0].rgbBlue      = 0;
+    bmi.bmiColors[0].rgbGreen     = 0;
+    bmi.bmiColors[0].rgbRed       = 0;
+    bmi.bmiColors[0].rgbReserved  = 0;
 
     HDC hdc   = GetDC(hwnd);
     g_hBmp    = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, (void**) &g_pPixels, NULL, 0);
@@ -239,33 +247,33 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
             // Load invaders.h
             if (!loadRom(&g_SpaceInvaders, INVADERS_H_ROM_PATH, INVADERS_H_ROM_ADDRESS)) {
                 #ifdef DEBUG
-                puts("ERROR: Cannot find invaders.h! Terminating emulator...");
+                SHOW_ERROR("ERROR: Cannot find invaders.h! Terminating emulator...")
                 #endif
-                return EXIT_FAILURE;
+                ExitProcess(EXIT_FAILURE);
             }
 
             // Load invaders.g
             if (!loadRom(&g_SpaceInvaders, INVADERS_G_ROM_PATH, INVADERS_G_ROM_ADDRESS)) {
                 #ifdef DEBUG
-                puts("ERROR: Cannot find invaders.g! Terminating emulator...");
+                SHOW_ERROR("ERROR: Cannot find invaders.g! Terminating emulator...")
                 #endif
-                return EXIT_FAILURE;
+                ExitProcess(EXIT_FAILURE);
             }
 
             // Load invaders.f
             if (!loadRom(&g_SpaceInvaders, INVADERS_F_ROM_PATH, INVADERS_F_ROM_ADDRESS)) {
                 #ifdef DEBUG
-                puts("ERROR: Cannot find invaders.f! Terminating emulator...");
+                SHOW_ERROR("ERROR: Cannot find invaders.f! Terminating emulator...")
                 #endif
-                return EXIT_FAILURE;
+                ExitProcess(EXIT_FAILURE);
             }
 
             // Load invaders.e
             if (!loadRom(&g_SpaceInvaders, INVADERS_E_ROM_PATH, INVADERS_E_ROM_ADDRESS)) {
                 #ifdef DEBUG
-                puts("ERROR: Cannot find invaders.e! Terminating emulator...");
+                SHOW_ERROR("ERROR: Cannot find invaders.e! Terminating emulator...")
                 #endif
-                return EXIT_FAILURE;
+                ExitProcess(EXIT_FAILURE);
             }
 
             // Start the timer
@@ -289,11 +297,11 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
                     isPaused = !isPaused;
                     CheckMenuItem(hMenu, IDM_PAUSE, (isPaused) ? MF_CHECKED : MF_UNCHECKED);
                     break;
-                    
+
                 case VK_F2:
                     resetCpu(&g_SpaceInvaders);
                     break;
-                    
+
                 case VK_ESCAPE:
                     ExitProcess(0);
                     break;
@@ -306,17 +314,19 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
                     isPaused = !isPaused;
                     CheckMenuItem(hMenu, IDM_PAUSE, (isPaused) ? MF_CHECKED : MF_UNCHECKED);
                     break;
-                    
+
                 case IDM_RESET:
                     resetCpu(&g_SpaceInvaders);
                     break;
-                    
+
                 case IDM_EXIT:
                     PostQuitMessage(0);
                     break;
-                    
+
                 case IDM_ABOUT:
-                    MessageBox(hwnd, "Intel 8080 Space Invaders Emulator by Luke Zimmerer", "About", MB_ICONINFORMATION);
+                    isPaused = true;
+                    MessageBox(hwnd, "Intel 8080 Space Invaders Emulator.\r\nC  |  Win32  |  GDI.\r\nLuke Zimmerer, 2016. GNU GPLv3.", "About", MB_ICONINFORMATION);
+                    isPaused = false;
                     break;
             }
             break;
