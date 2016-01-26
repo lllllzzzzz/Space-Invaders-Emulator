@@ -499,117 +499,117 @@ void mvim() // 0x36
 */
 void adda() // 0x87
 {
-    signed short result = REG_A + REG_A;
+    const signed short result = REG_A + REG_A;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void addb() // 0x80
 {
-    signed short result = REG_A + REG_B;
+    const signed short result = REG_A + REG_B;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void addc() // 0x81
 {
-    signed short result = REG_A + REG_C;
+    const signed short result = REG_A + REG_C;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void addd() // 0x82
 {
-    signed short result = REG_A + REG_D;
+    const signed short result = REG_A + REG_D;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void adde() // 0x83
 {
-    signed short result = REG_A + REG_E;
+    const signed short result = REG_A + REG_E;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void addh() // 0x84
 {
-    signed short result = REG_A + REG_H;
+    const signed short result = REG_A + REG_H;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void addl() // 0x85
 {
-    signed short result = REG_A + REG_L;
+    const signed short result = REG_A + REG_L;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void addm() // 0x86
 {
-    signed short result = REG_A + MEM[REG_M];
+    const signed short result = REG_A + MEM[REG_M];
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void adi() // 0xC6
 {
-    signed short result = REG_A + GET_BYTE(REG_PC + 1);
+    const signed short result = REG_A + GET_BYTE(REG_PC + 1);
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC += 2;
@@ -626,117 +626,117 @@ void adi() // 0xC6
 */
 void adca() // 0x8F
 {
-    signed short result = REG_A + REG_A + FLAG_CY;
+    const signed short result = REG_A + REG_A + FLAG_CY;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;;
-    CALC_P(result);;
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void adcb() // 0x88
 {
-    signed short result = REG_A + REG_B + FLAG_CY;
+    const signed short result = REG_A + REG_B + FLAG_CY;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void adcc() // 0x89
 {
-    signed short result = REG_A + REG_C + FLAG_CY;
+    const signed short result = REG_A + REG_C + FLAG_CY;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void adcd() // 0x8A
 {
-    signed short result = REG_A + REG_D + FLAG_CY;
+    const signed short result = REG_A + REG_D + FLAG_CY;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void adce() // 0x8B
 {
-    signed short result = REG_A + REG_E + FLAG_CY;
+    const signed short result = REG_A + REG_E + FLAG_CY;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void adch() // 0x8C
 {
-    signed short result = REG_A + REG_H + FLAG_CY;
+    const signed short result = REG_A + REG_H + FLAG_CY;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void adcl() // 0x8D
 {
-    signed short result = REG_A + REG_L + FLAG_CY;
+    const signed short result = REG_A + REG_L + FLAG_CY;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void adcm() // 0x8E
 {
-    signed short result = REG_A + MEM[REG_M] + FLAG_CY;
+    const signed short result = REG_A + MEM[REG_M] + FLAG_CY;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void aci() // 0xCE
 {
-    signed short result = REG_A + GET_BYTE(REG_PC + 1) + FLAG_CY;
+    const signed short result = REG_A + GET_BYTE(REG_PC + 1) + FLAG_CY;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC += 2;
@@ -753,117 +753,117 @@ void aci() // 0xCE
 */
 void suba() // 0x97
 {
-    signed short result = REG_A - REG_A;
+    const signed short result = REG_A - REG_A;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void subb() // 0x90
 {
-    signed short result = REG_A - REG_B;
+    const signed short result = REG_A - REG_B;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void subc() // 0x91
 {
-    signed short result = REG_A - REG_C;
+    const signed short result = REG_A - REG_C;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void subd() // 0x92
 {
-    signed short result = REG_A - REG_D;
+    const signed short result = REG_A - REG_D;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void sube() // 0x93
 {
-    signed short result = REG_A - REG_E;
+    const signed short result = REG_A - REG_E;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void subh() // 0x94
 {
-    signed short result = REG_A - REG_H;
+    const signed short result = REG_A - REG_H;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void subl() // 0x95
 {
-    signed short result = REG_A - REG_L;
+    const signed short result = REG_A - REG_L;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void subm() // 0x96
 {
-    signed short result = REG_A - MEM[REG_M];
+    const signed short result = REG_A - MEM[REG_M];
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void sui() // 0xD6
 {
-    signed short result = REG_A - GET_BYTE(REG_PC + 1);
+    const signed short result = REG_A - GET_BYTE(REG_PC + 1);
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC += 2;
@@ -880,117 +880,117 @@ void sui() // 0xD6
 */
 void sbba() // 0x9F
 {
-    signed short result = REG_A - REG_A - FLAG_CY;
+    const signed short result = REG_A - REG_A - FLAG_CY;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void sbbb() // 0x98
 {
-    signed short result = REG_A - REG_B - FLAG_CY;
+    const signed short result = REG_A - REG_B - FLAG_CY;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void sbbc() // 0x99
 {
-    signed short result = REG_A - REG_C - FLAG_CY;
+    const signed short result = REG_A - REG_C - FLAG_CY;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void sbbd() // 0x9A
 {
-    signed short result = REG_A - REG_D - FLAG_CY;
+    const signed short result = REG_A - REG_D - FLAG_CY;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void sbbe() // 0x9B
 {
-    signed short result = REG_A - REG_E - FLAG_CY;
+    const signed short result = REG_A - REG_E - FLAG_CY;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void sbbh() // 0x9C
 {
-    signed short result = REG_A - REG_H - FLAG_CY;
+    const signed short result = REG_A - REG_H - FLAG_CY;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void sbbl() // 0x9D
 {
-    signed short result = REG_A - REG_L - FLAG_CY;
+    const signed short result = REG_A - REG_L - FLAG_CY;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void sbbm() // 0x9E
 {
-    signed short result = REG_A - MEM[REG_M] - FLAG_CY;
+    const signed short result = REG_A - MEM[REG_M] - FLAG_CY;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void sbi() // 0xDE
 {
-    signed short result = REG_A - GET_BYTE(REG_PC + 1) - FLAG_CY;
+    const signed short result = REG_A - GET_BYTE(REG_PC + 1) - FLAG_CY;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_CY = result > 0xFF || result < 0x00;
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC += 2;
@@ -1089,103 +1089,103 @@ void hlt() // 0x76
 */
 void inra() // 0x3C
 {
-    signed short result = REG_A + 1;
+    const signed short result = REG_A + 1;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void inrb() // 0x04
 {
-    signed short result = REG_B + 1;
+    const signed short result = REG_B + 1;
 
 //  FLAG_AC = (REG_A & 0xF) > (result & 0xF);
     FLAG_AC = (REG_B & 0xF) > (result & 0xF);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_B = result;
     REG_PC++;
 }
 void inrc() // 0x0C
 {
-    signed short result = REG_C + 1;
+    const signed short result = REG_C + 1;
 
 //  FLAG_AC = (REG_A & 0xF) > (result & 0xF);
     FLAG_AC = (REG_C & 0xF) > (result & 0xF);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_C = result;
     REG_PC++;
 }
 void inrd() // 0x14
 {
-    signed short result = REG_D + 1;
+    const signed short result = REG_D + 1;
 
 //  FLAG_AC = (REG_A & 0xF) > (result & 0xF);
     FLAG_AC = (REG_D & 0xF) > (result & 0xF);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_D = result;
     REG_PC++;
 }
 void inre() // 0x1C
 {
-    signed short result = REG_E + 1;
+    const signed short result = REG_E + 1;
 
 //  FLAG_AC = (REG_A & 0xF) > (result & 0xF);
     FLAG_AC = (REG_E & 0xF) > (result & 0xF);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_E = result;
     REG_PC++;
 }
 void inrh() // 0x24
 {
-    signed short result = REG_H + 1;
+    const signed short result = REG_H + 1;
 
 //  FLAG_AC = (REG_A & 0xF) > (result & 0xF);
     FLAG_AC = (REG_H & 0xF) > (result & 0xF);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_H = result;
     REG_PC++;
 }
 void inrl() // 0x2C
 {
-    signed short result = REG_L + 1;
+    const signed short result = REG_L + 1;
 
 //  FLAG_AC = (REG_A & 0xF) > (result & 0xF);
     FLAG_AC = (REG_L & 0xF) > (result & 0xF);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_L = result;
     REG_PC++;
 }
 void inrm() // 0x34
 {
-    signed short result = MEM[REG_M] + 1;
+    const signed short result = MEM[REG_M] + 1;
 
 //  FLAG_AC = (REG_A & 0xF) > (result & 0xF);
     FLAG_AC = (MEM[REG_M] & 0xF) > (result & 0xF);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     MEM[REG_M] = result;
     REG_PC++;
@@ -1202,103 +1202,103 @@ void inrm() // 0x34
 */
 void dcra() // 0x3D
 {
-    signed short result = REG_A - 1;
+    const signed short result = REG_A - 1;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void dcrb() // 0x05
 {
-    signed short result = REG_B - 1;
+    const signed short result = REG_B - 1;
 
     //FLAG_AC = (REG_A & 0xF) > (result & 0xF);
     FLAG_AC = (REG_B & 0xF) > (result & 0xF);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_B = result;
     REG_PC++;
 }
 void dcrc() // 0x0D
 {
-    signed short result = REG_C - 1;
+    const signed short result = REG_C - 1;
 
 //  FLAG_AC = (REG_A & 0xF) > (result & 0xF);
     FLAG_AC = (REG_C & 0xF) > (result & 0xF);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_C = result;
     REG_PC++;
 }
 void dcrd() // 0x15
 {
-    signed short result = REG_D - 1;
+    const signed short result = REG_D - 1;
 
 //  FLAG_AC = (REG_A & 0xF) > (result & 0xF);
     FLAG_AC = (REG_D & 0xF) > (result & 0xF);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_D = result;
     REG_PC++;
 }
 void dcre() // 0x1D
 {
-    signed short result = REG_E - 1;
+    const signed short result = REG_E - 1;
 
 //  FLAG_AC = (REG_A & 0xF) > (result & 0xF);
     FLAG_AC = (REG_E & 0xF) > (result & 0xF);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_E = result;
     REG_PC++;
 }
 void dcrh() // 0x25
 {
-    signed short result = REG_H - 1;
+    const signed short result = REG_H - 1;
 
 //  FLAG_AC = (REG_A & 0xF) > (result & 0xF);
     FLAG_AC = (REG_H & 0xF) > (result & 0xF);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_H = result;
     REG_PC++;
 }
 void dcrl() // 0x2D
 {
-    signed short result = REG_L - 1;
+    const signed short result = REG_L - 1;
 
 //  FLAG_AC = (REG_A & 0xF) > (result & 0xF);
     FLAG_AC = (REG_L & 0xF) > (result & 0xF);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_L = result;
     REG_PC++;
 }
 void dcrm() // 0x35
 {
-    signed short result = MEM[REG_M] - 1;
+    const signed short result = MEM[REG_M] - 1;
 
 //  FLAG_AC = (REG_A & 0xF) > (result & 0xF);
     FLAG_AC = (MEM[REG_M] & 0xF) > (result & 0xF);
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     MEM[REG_M] = result;
     REG_PC++;
@@ -1372,13 +1372,13 @@ void dcxsp() // 0x3B
 void daa() // 0x27
 {
     if ((REG_A & 0x0F) > 9 || FLAG_AC) {
-        signed short result = REG_A + 6;
+        const signed short result = REG_A + 6;
         FLAG_CY = ((REG_A & 8) > (result & 8));
         REG_A = result & 0xFF;
     }
 
     if ((REG_A >> 4) > 9 || FLAG_AC) {
-        signed short result = REG_A + (6 << 4);
+        const signed short result = REG_A + (6 << 4);
         FLAG_CY = (REG_A & 0x80) > (result & 0x80);
         REG_A = result & 0xFF;
     }
@@ -1418,14 +1418,14 @@ void rlc() // 0x07
 }
 void rrc() // 0x0F
 {
-    signed short result = (REG_A >> 1) | ((REG_A & 0x1) << 7);
+    const signed short result = (REG_A >> 1) | ((REG_A & 0x1) << 7);
     FLAG_CY = (REG_A & 0x1);
     REG_A = result & 0xFF;
 
 //    FLAG_CY = REG_A << 7;
 //    REG_A = (REG_A >> 1) | (REG_A << 7);
 
-//    signed short result = (REG_A >> 1) | ((A & 0x1) << 7);
+//    const signed short result = (REG_A >> 1) | ((A & 0x1) << 7);
 //    FLAG_CY = REG_A & 0x1;
 //    REG_A = result & 0xFF;
     REG_PC++;
@@ -1439,7 +1439,7 @@ void ral() // 0x17
 }
 void rar() // 0x1F
 {
-    signed short result = (REG_A >> 1) | (FLAG_CY << 7);
+    const signed short result = (REG_A >> 1) | (FLAG_CY << 7);
 
     FLAG_CY = result & 0x1;
 
@@ -1458,135 +1458,135 @@ void rar() // 0x1F
 */
 void anaa() // 0xA7
 {
-    signed short result = REG_A & REG_A;
+    const signed short result = REG_A & REG_A;
 
 //  FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-//  FLAG_CY = (result > 0xFF || result < 0x00);
+//  FLAG_CY = result > 0xFF || result < 0x00;
     FLAG_AC = 0;
     FLAG_CY = 0;
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void anab() // 0xA0
 {
-    signed short result = REG_A & REG_B;
+    const signed short result = REG_A & REG_B;
 
 //  FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-//  FLAG_CY = (result > 0xFF || result < 0x00);
+//  FLAG_CY = result > 0xFF || result < 0x00;
     FLAG_AC = 0;
     FLAG_CY = 0;
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void anac() // 0xA1
 {
-    signed short result = REG_A & REG_C;
+    const signed short result = REG_A & REG_C;
 
 //  FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-//  FLAG_CY = (result > 0xFF || result < 0x00);
+//  FLAG_CY = result > 0xFF || result < 0x00;
     FLAG_AC = 0;
     FLAG_CY = 0;
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void anad() // 0xA2
 {
-    signed short result = REG_A & REG_D;
+    const signed short result = REG_A & REG_D;
 
 //  FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-//  FLAG_CY = (result > 0xFF || result < 0x00);
+//  FLAG_CY = result > 0xFF || result < 0x00;
     FLAG_AC = 0;
     FLAG_CY = 0;
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void anae() // 0xA3
 {
-    signed short result = REG_A & REG_E;
+    const signed short result = REG_A & REG_E;
 
 //  FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-//  FLAG_CY = (result > 0xFF || result < 0x00);
+//  FLAG_CY = result > 0xFF || result < 0x00;
     FLAG_AC = 0;
     FLAG_CY = 0;
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void anah() // 0xA4
 {
-    signed short result = REG_A & REG_H;
+    const signed short result = REG_A & REG_H;
 
 //  FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-//  FLAG_CY = (result > 0xFF || result < 0x00);
+//  FLAG_CY = result > 0xFF || result < 0x00;
     FLAG_AC = 0;
     FLAG_CY = 0;
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void anal() // 0xA5
 {
-    signed short result = REG_A & REG_L;
+    const signed short result = REG_A & REG_L;
 
 //  FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-//  FLAG_CY = (result > 0xFF || result < 0x00);
+//  FLAG_CY = result > 0xFF || result < 0x00;
     FLAG_AC = 0;
     FLAG_CY = 0;
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void anam() // 0xA6
 {
-    signed short result = REG_A & MEM[REG_M];
+    const signed short result = REG_A & MEM[REG_M];
 
 //  FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-//  FLAG_CY = (result > 0xFF || result < 0x00);
+//  FLAG_CY = result > 0xFF || result < 0x00;
     FLAG_AC = 0;
     FLAG_CY = 0;
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void ani() // 0xE6
 {
-    signed short result = REG_A & GET_BYTE(REG_PC + 1);
+    const signed short result = REG_A & GET_BYTE(REG_PC + 1);
 
 //  FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-//  FLAG_CY = (result > 0xFF || result < 0x00);
+//  FLAG_CY = result > 0xFF || result < 0x00;
     FLAG_AC = 0;
     FLAG_CY = 0;
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC += 2;
@@ -1603,135 +1603,135 @@ void ani() // 0xE6
 */
 void xraa() // 0xAF
 {
-    signed short result = REG_A ^ REG_A;
+    const signed short result = REG_A ^ REG_A;
 
 //  FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-//  FLAG_CY = (result > 0xFF || result < 0x00);
+//  FLAG_CY = result > 0xFF || result < 0x00;
     FLAG_AC = 0;
     FLAG_CY = 0;
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void xrab() // 0xA8
 {
-    signed short result = REG_A ^ REG_B;
+    const signed short result = REG_A ^ REG_B;
 
 //  FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-//  FLAG_CY = (result > 0xFF || result < 0x00);
+//  FLAG_CY = result > 0xFF || result < 0x00;
     FLAG_AC = 0;
     FLAG_CY = 0;
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void xrac() // 0xA9
 {
-    signed short result = REG_A ^ REG_C;
+    const signed short result = REG_A ^ REG_C;
 
 //  FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-//  FLAG_CY = (result > 0xFF || result < 0x00);
+//  FLAG_CY = result > 0xFF || result < 0x00;
     FLAG_AC = 0;
     FLAG_CY = 0;
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void xrad() // 0xAA
 {
-    signed short result = REG_A ^ REG_D;
+    const signed short result = REG_A ^ REG_D;
 
 //  FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-//  FLAG_CY = (result > 0xFF || result < 0x00);
+//  FLAG_CY = result > 0xFF || result < 0x00;
     FLAG_AC = 0;
     FLAG_CY = 0;
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void xrae() // 0xAB
 {
-    signed short result = REG_A ^ REG_E;
+    const signed short result = REG_A ^ REG_E;
 
 //  FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-//  FLAG_CY = (result > 0xFF || result < 0x00);
+//  FLAG_CY = result > 0xFF || result < 0x00;
     FLAG_AC = 0;
     FLAG_CY = 0;
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void xrah() // 0xAC
 {
-    signed short result = REG_A ^ REG_H;
+    const signed short result = REG_A ^ REG_H;
 
 //  FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-//  FLAG_CY = (result > 0xFF || result < 0x00);
+//  FLAG_CY = result > 0xFF || result < 0x00;
     FLAG_AC = 0;
     FLAG_CY = 0;
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void xral() // 0xAD
 {
-    signed short result = REG_A ^ REG_L;
+    const signed short result = REG_A ^ REG_L;
 
 //  FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-//  FLAG_CY = (result > 0xFF || result < 0x00);
+//  FLAG_CY = result > 0xFF || result < 0x00;
     FLAG_AC = 0;
     FLAG_CY = 0;
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void xram() // 0xAE
 {
-    signed short result = REG_A ^ MEM[REG_M];
+    const signed short result = REG_A ^ MEM[REG_M];
 
 //  FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-//  FLAG_CY = (result > 0xFF || result < 0x00);
+//  FLAG_CY = result > 0xFF || result < 0x00;
     FLAG_AC = 0;
     FLAG_CY = 0;
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void xri() // 0xEE
 {
-    signed short result = REG_A ^ GET_BYTE(REG_PC + 1);
+    const signed short result = REG_A ^ GET_BYTE(REG_PC + 1);
 
 //  FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-//  FLAG_CY = (result > 0xFF || result < 0x00);
+//  FLAG_CY = result > 0xFF || result < 0x00;
     FLAG_AC = 0;
     FLAG_CY = 0;
-    FLAG_S = (result >> 7);
-    FLAG_Z = result ? 0 : 1;
-    CALC_P(result);
+    FLAG_S = result >> 7;
+    FLAG_Z = !result;
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC += 2;
@@ -1748,117 +1748,117 @@ void xri() // 0xEE
 */
 void oraa() // 0xB7
 {
-    signed short result = REG_A | REG_A;
+    const signed short result = REG_A | REG_A;
 
     FLAG_AC = 0;
     FLAG_CY = 0;
     FLAG_S  = (result >> 7);
     FLAG_Z  = result ? 0 : 1;
-    CALC_P(result);
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void orab() // 0xB0
 {
-    signed short result = REG_A | REG_B;
+    const signed short result = REG_A | REG_B;
 
     FLAG_AC = 0;
     FLAG_CY = 0;
     FLAG_S  = (result >> 7);
     FLAG_Z  = result ? 0 : 1;
-    CALC_P(result);
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void orac() // 0xB1
 {
-    signed short result = REG_A | REG_C;
+    const signed short result = REG_A | REG_C;
 
     FLAG_AC = 0;
     FLAG_CY = 0;
     FLAG_S  = (result >> 7);
     FLAG_Z  = result ? 0 : 1;
-    CALC_P(result);
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void orad() // 0xB2
 {
-    signed short result = REG_A | REG_D;
+    const signed short result = REG_A | REG_D;
 
     FLAG_AC = 0;
     FLAG_CY = 0;
     FLAG_S  = (result >> 7);
     FLAG_Z  = result ? 0 : 1;
-    CALC_P(result);
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void orae() // 0xB3
 {
-    signed short result = REG_A | REG_E;
+    const signed short result = REG_A | REG_E;
 
     FLAG_AC = 0;
     FLAG_CY = 0;
     FLAG_S  = (result >> 7);
     FLAG_Z  = result ? 0 : 1;
-    CALC_P(result);
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void orah() // 0xB4
 {
-    signed short result = REG_A | REG_H;
+    const signed short result = REG_A | REG_H;
 
     FLAG_AC = 0;
     FLAG_CY = 0;
     FLAG_S  = (result >> 7);
     FLAG_Z  = result ? 0 : 1;
-    CALC_P(result);
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void oral() // 0xB5
 {
-    signed short result = REG_A | REG_L;
+    const signed short result = REG_A | REG_L;
 
     FLAG_AC = 0;
     FLAG_CY = 0;
     FLAG_S  = (result >> 7);
     FLAG_Z  = result ? 0 : 1;
-    CALC_P(result);
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void oram() // 0xB6
 {
-    signed short result = REG_A | MEM[REG_M];
+    const signed short result = REG_A | MEM[REG_M];
 
     FLAG_AC = 0;
     FLAG_CY = 0;
     FLAG_S  = (result >> 7);
     FLAG_Z  = result ? 0 : 1;
-    CALC_P(result);
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC++;
 }
 void ori() // 0xF6
 {
-    signed short result = REG_A | GET_BYTE(REG_PC + 1);
+    const signed short result = REG_A | GET_BYTE(REG_PC + 1);
 
     FLAG_AC = 0;
     FLAG_CY = 0;
     FLAG_S  = (result >> 7);
     FLAG_Z  = result ? 0 : 1;
-    CALC_P(result);
+    CALC_FLAG_PARITY(result);
 
     REG_A = result & 0xFF;
     REG_PC += 2;
@@ -1875,109 +1875,109 @@ void ori() // 0xF6
 */
 void cmpa() // 0xBF
 {
-    signed short result = REG_A - REG_A;
+    const signed short result = REG_A - REG_A;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
+    FLAG_CY = result > 0xFF || result < 0x00;
     FLAG_S  = (result >> 7);
     FLAG_Z  = result ? 0 : 1;
-    CALC_P(result);
+    CALC_FLAG_PARITY(result);
 
     REG_PC++;
 }
 void cmpb() // 0xB8
 {
-    signed short result = REG_A - REG_B;
+    const signed short result = REG_A - REG_B;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
+    FLAG_CY = result > 0xFF || result < 0x00;
     FLAG_S  = (result >> 7);
     FLAG_Z  = result ? 0 : 1;
-    CALC_P(result);
+    CALC_FLAG_PARITY(result);
 
     REG_PC++;
 }
 void cmpc() // 0xB9
 {
-    signed short result = REG_A - REG_C;
+    const signed short result = REG_A - REG_C;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
+    FLAG_CY = result > 0xFF || result < 0x00;
     FLAG_S  = (result >> 7);
     FLAG_Z  = result ? 0 : 1;
-    CALC_P(result);
+    CALC_FLAG_PARITY(result);
 
     REG_PC++;
 }
 void cmpd() // 0xBA
 {
-    signed short result = REG_A - REG_D;
+    const signed short result = REG_A - REG_D;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
+    FLAG_CY = result > 0xFF || result < 0x00;
     FLAG_S  = (result >> 7);
     FLAG_Z  = result ? 0 : 1;
-    CALC_P(result);
+    CALC_FLAG_PARITY(result);
 
     REG_PC++;
 }
 void cmpe() // 0xBB
 {
-    signed short result = REG_A - REG_E;
+    const signed short result = REG_A - REG_E;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
+    FLAG_CY = result > 0xFF || result < 0x00;
     FLAG_S  = (result >> 7);
     FLAG_Z  = result ? 0 : 1;
-    CALC_P(result);
+    CALC_FLAG_PARITY(result);
 
     REG_PC++;
 }
 void cmph() // 0xBC
 {
-    signed short result = REG_A - REG_H;
+    const signed short result = REG_A - REG_H;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
+    FLAG_CY = result > 0xFF || result < 0x00;
     FLAG_S  = (result >> 7);
     FLAG_Z  = result ? 0 : 1;
-    CALC_P(result);
+    CALC_FLAG_PARITY(result);
 
     REG_PC++;
 }
 void cmpl() // 0xBD
 {
-    signed short result = REG_A - REG_L;
+    const signed short result = REG_A - REG_L;
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
+    FLAG_CY = result > 0xFF || result < 0x00;
     FLAG_S  = (result >> 7);
     FLAG_Z  = result ? 0 : 1;
-    CALC_P(result);
+    CALC_FLAG_PARITY(result);
 
     REG_PC++;
 }
 void cmpm() // 0xBE
 {
-    signed short result = REG_A - MEM[REG_M];
+    const signed short result = REG_A - MEM[REG_M];
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
+    FLAG_CY = result > 0xFF || result < 0x00;
     FLAG_S  = (result >> 7);
     FLAG_Z  = result ? 0 : 1;
-    CALC_P(result);
+    CALC_FLAG_PARITY(result);
 
     REG_PC++;
 }
 void cpi() // 0xFE
 {
-    signed short result = REG_A - GET_BYTE(REG_PC + 1);
+    const signed short result = REG_A - GET_BYTE(REG_PC + 1);
 
     FLAG_AC = (REG_A & 0xF) > (result & 0xF);
-    FLAG_CY = (result > 0xFF || result < 0x00);
+    FLAG_CY = result > 0xFF || result < 0x00;
     FLAG_S  = (result >> 7);
     FLAG_Z  = result ? 0 : 1;
-    CALC_P(result);
+    CALC_FLAG_PARITY(result);
 
     REG_PC += 2;
 }
