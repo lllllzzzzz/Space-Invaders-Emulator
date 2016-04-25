@@ -99,9 +99,6 @@ const BYTE i8080A_cycles[0x100] =
 void initializeCpu(i8080 *myi8080)
 {
     assert(myi8080);
-    /*if (!myi8080) {
-        return;
-    }*/
 
     myi8080->pc.w = 0x0000;
     myi8080->sp.w = 0xFFFF;
@@ -137,9 +134,6 @@ void initializeCpu(i8080 *myi8080)
 void resetCpu(i8080 *myi8080)
 {
     assert(myi8080);
-    /*if (!myi8080) {
-        return;
-    }*/
 
     myi8080->pc.w = 0x0000;
     myi8080->sp.w = 0xFFFF;
@@ -159,7 +153,6 @@ void resetCpu(i8080 *myi8080)
     myi8080->cycleCount = 0;
 
     ZeroMemory(myi8080->ports, PORTS_BYTES);
-    //ZeroMemory(myi8080->mainMemory, MEM_BYTES);
 
     myi8080->shift_byte1  = 0;
     myi8080->shift_byte2  = 0;
@@ -180,9 +173,6 @@ bool loadRom(i8080 *myi8080, const char *romPath, unsigned short address)
 {
     assert(myi8080);
     assert(romPath);
-    /*if (!myi8080 || !romPath) {
-        return FALSE;
-    }*/
 
     FILE *pFile = fopen(romPath, "rb");
 
@@ -215,7 +205,7 @@ void executeCycles(i8080 *myi8080, unsigned int nCycles)
 {
     assert(myi8080);
     assert(nCycles > 0);
-    /*if (!myi8080 || nCycles == 0) {
+    /*if (nCycles == 0) {
         return;
     }*/
 
