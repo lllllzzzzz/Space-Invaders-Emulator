@@ -1,6 +1,12 @@
 # Space-Invaders-Emulator-Win
 Intel 8080 Space Invaders emulator for Windows. GDI for graphics, GUI in Win32.<br/>
-Emulates the complete 8080 instruction set, so the interpreter core can be used in other emulation projects. No sound, and interrupt timings/barrel shifter emulation might be slightly buggy.
+Emulates the complete 8080 instruction set, so the interpreter core can be used in other emulation projects.
+
+##Bugs:
+<ul>
+<li>No sound</li>
+<li>Inaccurate interrupt timings/barrel shifter emulation</li>
+</ul>
 
 ##Screenshots:
 
